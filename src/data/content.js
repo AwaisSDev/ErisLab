@@ -4,10 +4,10 @@
 
 export const site = {
   name: 'Eris Lab',
-  title: 'Eris Lab — AI that understands your life',
+  title: 'Eris Lab: AI that understands your life',
   description:
-    'Eris Lab is an independent AI research lab researching a future where AI understands people, not just prompts — through work on privacy‑first AI, personal context, memory, intelligent agents and efficient models.',
-  email: 'hello@erislab.ai',
+    'Eris Lab is an independent AI research lab researching a future where AI understands people, not just prompts, through work on privacy‑first AI, personal context, memory, intelligent agents and efficient models.',
+  email: 'hello@erislabs.xyz',
 };
 
 export const mission =
@@ -31,7 +31,7 @@ export const statements = [
   {
     title: 'AI that knows enough to help.',
     tag: 'Context',
-    body: 'Not another blank prompt box. We’re researching AI that understands the bigger picture — the people, plans and information in a person’s life — and can help before being asked.',
+    body: 'Not another blank prompt box. We’re researching AI that understands the bigger picture (the people, plans and information in a person’s life) and can help before being asked.',
   },
   {
     title: 'Remembers enough to understand.',
@@ -49,7 +49,7 @@ export const work = [
   {
     tag: 'Privacy‑first AI',
     title: 'Intelligence that sees only what it needs to.',
-    body: 'How personal AI can be genuinely useful while exposing as little as possible — and keeping the person in control of what it sees.',
+    body: 'How personal AI can be genuinely useful while exposing as little as possible and keeping the person in control of what it sees.',
     points: [
       'Local‑first context processing',
       'Privacy‑aware information routing',
@@ -61,12 +61,12 @@ export const work = [
   {
     tag: 'Personal context intelligence',
     title: 'Understanding a life, not a prompt.',
-    body: 'Connecting people, events, plans and information across conversations, documents and digital experiences — and following them over time.',
+    body: 'Connecting people, events, plans and information across conversations, documents and digital experiences, and following them over time.',
     points: [
       'Understanding information across sources',
       'Connecting people, events and plans over time',
       'Useful representations of personal context',
-      'Knowing what matters — and what to ignore',
+      'Knowing what matters, and what to ignore',
     ],
   },
   {
@@ -95,7 +95,7 @@ export const work = [
   {
     tag: 'Efficient AI',
     title: 'Personal intelligence at a personal scale.',
-    body: 'Small models that are efficient enough to stay close to the person — and know when to work alongside frontier models.',
+    body: 'Small models that are efficient enough to stay close to the person, and know when to work alongside frontier models.',
     points: [
       'Small language models',
       'Efficient inference for personal intelligence',
@@ -109,7 +109,7 @@ export const projects = [
   {
     name: 'Photon',
     kind: 'Context‑aware model',
-    body: 'Research into a model that understands the context around a request — not just the request itself.',
+    body: 'Research into a model that understands the context around a request, not just the request itself.',
     art: 'orb',
     seed: 17,
   },
@@ -153,7 +153,7 @@ export const standing = [
   ['Not every direction is implemented.', 'The areas on this page are research. Some are in development; others are early exploration.'],
 ];
 
-// Research directions framed as open questions — no dates, no implied publications.
+// Research directions framed as open questions: no dates, no implied publications.
 export const research = {
   areas: [
     { key: 'privacy', label: 'Privacy' },
@@ -163,16 +163,16 @@ export const research = {
     { key: 'efficient', label: 'Efficient AI' },
   ],
   featured: [
-    { type: 'privacy', area: 'Privacy‑first AI', title: 'Which personal context should never leave the device — and how should a system decide?', art: 'orbit', seed: 21 },
+    { type: 'privacy', area: 'Privacy‑first AI', title: 'Which personal context should never leave the device, and how should a system decide?', art: 'orbit', seed: 21 },
     { type: 'memory', area: 'Memory systems', title: 'Memory a person can inspect, correct and delete.', art: 'contour', seed: 7 },
   ],
   rows: [
     { type: 'privacy', title: 'Routing information by sensitivity, not convenience', art: 'mesh', seed: 11 },
     { type: 'context', title: 'Representing a person’s context across conversations, documents and time', art: 'attention', seed: 3 },
-    { type: 'context', title: 'Knowing what matters — and what should be ignored', art: 'halftone', seed: 5 },
+    { type: 'context', title: 'Knowing what matters, and what should be ignored', art: 'halftone', seed: 5 },
     { type: 'memory', title: 'Separating temporary information from long‑term context', art: 'flow', seed: 9 },
     { type: 'memory', title: 'Detecting and resolving contradictions in what an assistant remembers', art: 'tokens', seed: 14 },
-    { type: 'agents', title: 'Preparing tasks before they’re asked for — and acting only with permission', art: 'orbit', seed: 2 },
+    { type: 'agents', title: 'Preparing tasks before they’re asked for, and acting only with permission', art: 'orbit', seed: 2 },
     { type: 'efficient', title: 'How much personal intelligence fits in a small model?', art: 'orb', seed: 31 },
     { type: 'efficient', title: 'When local intelligence should hand off to frontier models', art: 'planet', seed: 44 },
   ],
@@ -209,10 +209,10 @@ export const atlasCats = ['Personal context', 'Memory', 'Agents', 'Privacy', 'Ef
 
 export const principles = [
   { title: 'Privacy by design.', body: 'Privacy is a constraint we design around from the start, not a setting added at the end.', art: 'shield' },
-  { title: 'Your context is yours.', body: 'People should own and control their personal context — what is collected, what is kept and what is shared.', art: 'key' },
+  { title: 'Your context is yours.', body: 'People should own and control their personal context: what is collected, what is kept and what is shared.', art: 'key' },
   { title: 'Local first, where practical.', body: 'Process personal context close to the person whenever it is practical, and minimize what has to leave the device.', art: 'device' },
-  { title: 'Transparent about data.', body: 'Say plainly what data is used, where it goes and why — in language people can actually read.', art: 'eye' },
-  { title: 'Proactive, with permission.', body: 'AI should help before it’s asked — and ask before it acts on anything that matters.', art: 'nudge' },
+  { title: 'Transparent about data.', body: 'Say plainly what data is used, where it goes and why, in language people can actually read.', art: 'eye' },
+  { title: 'Proactive, with permission.', body: 'AI should help before it’s asked, and ask before it acts on anything that matters.', art: 'nudge' },
   { title: 'Memory you can see and change.', body: 'Anything an assistant remembers should be inspectable, correctable and deletable by the person it’s about.', art: 'fade' },
   { title: 'Honest about progress.', body: 'We report research as research. No invented numbers, no claims ahead of the evidence.', art: 'scale' },
 ];
@@ -225,8 +225,8 @@ export const collaborate = [
 
 export const faq = [
   ['Is Eris a product I can use today?', 'Eris Lab is a research lab. The projects on this site are research and development work, not launched commercial products. We’ll say so clearly when that changes.'],
-  ['Does everything run on‑device?', 'No — not today. Local‑first processing is a design principle and an active research direction. We process locally where it’s practical, and we’re studying how local intelligence and frontier models should work together.'],
-  ['What does “proactive” mean here?', 'Noticing what someone is likely to need — a document before a meeting, a reminder before a deadline — and preparing it. In our research, anything consequential requires the person’s permission first.'],
+  ['Does everything run on‑device?', 'Not today. Local‑first processing is a design principle and an active research direction. We process locally where it’s practical, and we’re studying how local intelligence and frontier models should work together.'],
+  ['What does “proactive” mean here?', 'Noticing what someone is likely to need, like a document before a meeting or a reminder before a deadline, and preparing it. In our research, anything consequential requires the person’s permission first.'],
   ['How do you report progress?', 'As research. We describe ongoing work as exploration or development, share results only when we can stand behind them, and label illustrative visuals as illustrative.'],
-  ['Why “Eris”?', 'Eris is one of the most distant known dwarf planets in our solar system — far out and quiet, with a single small moon, Dysnomia, that keeps it company. That felt right. 🔭'],
+  ['Why “Eris”?', 'Eris is one of the most distant known dwarf planets in our solar system: far out and quiet, with a single small moon, Dysnomia, that keeps it company. That felt right. 🔭'],
 ];
