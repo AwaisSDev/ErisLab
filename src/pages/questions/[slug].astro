@@ -27,7 +27,7 @@ const next = questions[(i + 1) % questions.length];
       <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/questions">Open questions</a><span>/</span><a href={q.area.href}>{q.area.tag}</a></nav>
       <h1 class="article__title" data-rise>{q.title}</h1>
       <div class="article__actions" data-rise>
-        <a class="pill pill--ink pill--md" href={mail(q.title)}>Discuss this question</a>
+        <a class="pill pill--ink pill--md" href={mail(q.title)} target="_blank" rel="noopener">Discuss this question</a>
         <a class="pill pill--soft pill--md" href={q.area.href}>{q.area.tag}</a>
       </div>
       <div class="article__media" data-rise><canvas data-art={q.art} data-seed={q.seed} aria-hidden="true"></canvas></div>

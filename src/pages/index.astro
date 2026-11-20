@@ -139,10 +139,10 @@ const tiles = [
     <section class="rows-sec wrap" id="collaborate">
       <h2 class="area__title" data-rise>Collaborate</h2>
       <p class="area__body" data-rise>We’re a small, independent lab. If these questions matter to you, we’d like to hear from you.</p>
-      <a class="pill pill--soft pill--md" href={`mailto:${site.email}`} data-rise>{site.email}</a>
+      <a class="pill pill--soft pill--md" href={`mailto:${site.email}`} target="_blank" rel="noopener" data-rise>{site.email}</a>
       <ul class="rows rows--links">
         {collaborate.map(([t, s, subj]) => (
-          <li data-rise><b>{t}</b><span class="muted">{s}</span><a href={mail(subj)}>Email us <span aria-hidden="true">↗</span></a></li>
+          <li data-rise><b>{t}</b><span class="muted">{s}</span><a href={mail(subj)} target="_blank" rel="noopener">Email us <span aria-hidden="true">↗</span></a></li>
         ))}
       </ul>
     </section>

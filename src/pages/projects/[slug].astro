@@ -24,7 +24,7 @@ const others = projectList.filter(x => x !== p);
       <h1 class="article__title article__title--xl" data-rise>{p.name}</h1>
       <p class="article__kicker" data-rise>{p.kind}</p>
       <div class="article__actions" data-rise>
-        <a class="pill pill--ink pill--md" href={mail(p.name)}>Ask about {p.name}</a>
+        <a class="pill pill--ink pill--md" href={mail(p.name)} target="_blank" rel="noopener">Ask about {p.name}</a>
       </div>
       <div class="article__media" data-rise><canvas data-art={p.art} data-seed={p.seed} aria-hidden="true"></canvas></div>
       <div class="prose">

@@ -10,8 +10,8 @@ const year = new Date().getFullYear();
         <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg><span>{site.name}</span></a>
         <p>{philosophy}</p>
         <div class="foot__actions">
-          <a class="pill pill--ink" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
-          <a class="textlink" href={`mailto:${site.email}`}>{site.email}</a>
+          <a class="pill pill--ink" href={`mailto:${site.email}`} target="_blank" rel="noopener">Get in touch <span aria-hidden="true">↗</span></a>
+          <a class="textlink" href={`mailto:${site.email}`} target="_blank" rel="noopener">{site.email}</a>
         </div>
       </div>
       <nav class="foot__cols" aria-label="Footer">
@@ -34,7 +34,7 @@ const year = new Date().getFullYear();
           <h4>Lab</h4>
           <a href="/#collaborate">Collaborate</a>
           <a href="/#faq">FAQ</a>
-          <a href={`mailto:${site.email}`}>Contact</a>
+          <a href={`mailto:${site.email}`} target="_blank" rel="noopener">Contact</a>
           <a href="/classic">Classic site</a>
         </div>
       </nav>
