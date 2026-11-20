@@ -13,7 +13,6 @@ const areaIcons = {
   agents: '<path d="M4 12h11"/><path d="m11 7 5 5-5 5"/><path d="M19 4v4M17 6h4"/>',
   efficient: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx=".8"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
 };
-const pointIcon = '<path d="M4 12h16M12 4v16" opacity=".35"/><circle cx="12" cy="12" r="4"/>';
 const areaKeys = ['privacy', 'context', 'memory', 'agents', 'efficient'];
 const areaLabel = Object.fromEntries(research.areas.map(a => [a.key, a.label]));
 const areaFull = Object.fromEntries(areaKeys.map((k, i) => [k, work[i].tag]));
@@ -54,27 +53,27 @@ const nodes = [[170, 200, 'v'], [300, 270, 'h'], [100, 380, 'v'], [350, 330, 'v'
 
   <header class="nav" data-nav>
     <div class="nav__in">
-      <div class="brandbox">
-        <a class="brand" href="/" aria-label={`${site.name} home`}>
-          <span class="brand__mark"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg></span>
-          <span>{site.name}</span>
-        </a>
-        <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" data-menu-btn><i></i><i></i></button>
-      </div>
+      <a class="brand" href="/" aria-label={`${site.name} home`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg>
+        <span>{site.name}</span>
+      </a>
       <nav class="nav__links" aria-label="Sections">
-        <a href="#areas">Areas</a>
+        <a href="#research-areas">Research</a>
         <a href="#projects">Projects</a>
         <a href="#index">Open questions</a>
         <a href="#principles">Principles</a>
+        <a href="#collaborate">Collaborate</a>
       </nav>
       <div class="nav__cta">
-        <a class="btn btn--plain" href="/">Home</a>
-        <a class="btn btn--ink" href={`mailto:${site.email}`}>Get in touch</a>
+        <a class="pill pill--soft" href="/">Home</a>
+        <a class="pill pill--ink" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
+        <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" data-menu-btn><i></i><i></i></button>
       </div>
     </div>
     <div class="drawer" data-drawer hidden>
-      <a href="#areas">Research areas</a><a href="#projects">Projects</a><a href="#index">Open questions</a>
+      <a href="#research-areas">Research</a><a href="#projects">Projects</a><a href="#index">Open questions</a>
       <a href="#principles">Principles</a><a href="#collaborate">Collaborate</a><a href="/">Home</a>
+      <a class="pill pill--ink pill--lg" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
     </div>
   </header>
 
@@ -106,25 +105,6 @@ const nodes = [[170, 200, 'v'], [300, 270, 'h'], [100, 380, 'v'], [350, 330, 'v'
             <div class="tile" style={`grid-area:${area}`}><canvas data-art={art} data-seed={seed} data-par={k} aria-hidden="true"></canvas></div>
           ))}
         </div>
-        <div class="ui-cards">
-          <div class="ui-card">
-            <div class="ui-card__head"><b>Where context goes</b><span>Illustration</span></div>
-            <ul class="route">
-              <li><span>Calendar</span><em class="tag-local">Stays local</em></li>
-              <li><span>Messages</span><em class="tag-local">Stays local</em></li>
-              <li><span>General question</span><em class="tag-out">Frontier model</em></li>
-            </ul>
-          </div>
-          <div class="ui-card">
-            <div class="ui-card__head"><b>What it remembers</b><span>Illustration</span></div>
-            <div class="mem">
-              <div><i style="--h:.9"></i><span>Kept</span></div>
-              <div><i style="--h:.45"></i><span>Fading</span></div>
-              <div><i class="is-gold" style="--h:.7"></i><span>Corrected</span></div>
-              <div><i style="--h:.2"></i><span>Deleted</span></div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -140,39 +120,34 @@ const nodes = [[170, 200, 'v'], [300, 270, 'h'], [100, 380, 'v'], [350, 330, 'v'
       </div>
     </section>
 
-    <!-- tabbed areas -->
-    <section class="tabbed wrap">
-      <div class="tabbed__left">
-        <div class="tabbar" role="tablist" aria-label="Research areas" data-tabbar>
-          {work.map((w, i) => (
-            <button role="tab" type="button" aria-selected={i === 0 ? 'true' : 'false'} data-tab={i}>{research.areas[i].label}</button>
-          ))}
+    <!-- research areas, tabbed -->
+    <section class="areas wrap" id="research-areas">
+      <div class="areas__head" data-rise>
+        <h2 class="h2">Research areas</h2>
+        <p class="muted">Five directions we’re exploring, each framed as research rather than product.</p>
+      </div>
+      <div class="seg" role="tablist" aria-label="Research areas" data-tabbar data-rise>
+        {work.map((w, i) => (
+          <button role="tab" type="button" aria-selected={i === 0 ? 'true' : 'false'} data-tab={i}>{w.tag}</button>
+        ))}
+      </div>
+      {work.map((w, i) => (
+        <div class="panel" role="tabpanel" data-panel={i} hidden={i !== 0}>
+          <div class="panel__media"><canvas data-art={tabArt[i][0]} data-seed={tabArt[i][1]} aria-hidden="true"></canvas></div>
+          <div class="panel__text">
+            <div>
+              <span class="panel__tag">{w.tag}</span>
+              <h3 class="panel__title">{w.title}</h3>
+            </div>
+            <div>
+              <p class="panel__body">{w.body}</p>
+              <ul class="panel__points">
+                {w.points.map(p => <li>{p}</li>)}
+              </ul>
+            </div>
+          </div>
         </div>
-        {work.map((w, i) => (
-          <div class="tabpanel" role="tabpanel" data-panel={i} hidden={i !== 0}>
-            <h2 class="tabpanel__title">{w.title}</h2>
-            <p class="tabpanel__body">{w.body}</p>
-            <ul class="points">
-              {w.points.map(p => (
-                <li><svg viewBox="0 0 24 24" aria-hidden="true" set:html={pointIcon} /><span>{p}</span></li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <div class="tabbed__right">
-        {tabArt.map(([art, seed], i) => (
-          <div class="tabart" data-panel-art={i} hidden={i !== 0}>
-            <canvas data-art={art} data-seed={seed} aria-hidden="true"></canvas>
-          </div>
-        ))}
-        {work.map((w, i) => (
-          <div class="float-card" data-float={i} hidden={i !== 0}>
-            <svg class="float-card__icon" viewBox="0 0 24 24" aria-hidden="true" set:html={areaIcons[areaKeys[i]]} />
-            <div><b>{w.tag}</b><span>{w.points.length} research directions</span></div>
-          </div>
-        ))}
-      </div>
+      ))}
     </section>
 
     <!-- dark mission statement -->

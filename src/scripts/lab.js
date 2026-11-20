@@ -42,7 +42,13 @@ if (!reduced) {
 const nav = $('[data-nav]');
 const menuBtn = $('[data-menu-btn]');
 const drawer = $('[data-drawer]');
-const setMenu = (open) => { drawer.hidden = !open; menuBtn.setAttribute('aria-expanded', String(open)); nav.classList.toggle('is-open', open); };
+const setMenu = (open) => {
+  drawer.hidden = !open;
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  document.documentElement.style.overflow = open ? 'hidden' : '';
+};
+addEventListener('resize', () => { if (innerWidth > 1080) setMenu(false); });
 menuBtn.addEventListener('click', () => setMenu(drawer.hidden));
 $$('a', drawer).forEach(a => a.addEventListener('click', () => setMenu(false)));
 addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
@@ -52,9 +58,7 @@ const tabs = $$('[data-tab]');
 function selectTab(i) {
   tabs.forEach(t => t.setAttribute('aria-selected', String(+t.dataset.tab === i)));
   $$('[data-panel]').forEach(p => p.hidden = +p.dataset.panel !== i);
-  $$('[data-panel-art]').forEach(p => p.hidden = +p.dataset.panelArt !== i);
-  $$('[data-float]').forEach(p => p.hidden = +p.dataset.float !== i);
-  watchArt($('.tabbed'));
+  watchArt($('.areas'));
 }
 tabs.forEach(t => t.addEventListener('click', () => selectTab(+t.dataset.tab)));
 $('[data-tabbar]').addEventListener('keydown', e => {
