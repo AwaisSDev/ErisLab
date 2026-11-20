@@ -1,23 +1,27 @@
 ---
+// Full-bleed photo section that closes every lab page.
+// Photo: "Golden Gate Bridge at Purple sunset" by Umer Sayyam, CC0 (public domain), via Wikimedia Commons.
 import { site } from '../../data/content.js';
-interface Props { title?: string; body?: string; art?: string; seed?: number }
+interface Props { title?: string; body?: string }
 const {
-  title = 'Work on these questions with us',
-  body = 'We’re a small, independent lab. If privacy, memory, context or agents are questions you care about, we’d like to hear from you.',
-  art = 'flow',
-  seed = 26,
+  title = 'AI that fits into the life you already live',
+  body = 'We’re a small, independent lab researching AI that understands people, not just prompts. If that matters to you, we’d like to hear from you.',
 } = Astro.props;
 ---
-<section class="wrap">
-  <div class="cta" data-rise>
-    <canvas data-art={art} data-seed={seed} aria-hidden="true"></canvas>
-    <div class="cta__in">
+<section class="photo" data-photo>
+  <picture>
+    <source type="image/webp" srcset="/images/golden-gate-sunset-800.webp 800w, /images/golden-gate-sunset-1400.webp 1400w, /images/golden-gate-sunset-2400.webp 2400w" sizes="100vw" />
+    <img src="/images/golden-gate-sunset-1400.jpg" alt="The Golden Gate Bridge at sunset, seen from a rocky shoreline with waves in the foreground" loading="lazy" decoding="async" width="1400" height="978" data-photo-img />
+  </picture>
+  <div class="photo__in wrap">
+    <div class="photo__text" data-rise>
       <h2>{title}</h2>
       <p>{body}</p>
-      <div class="cta__actions">
+      <div class="photo__actions">
         <a class="pill pill--light pill--md" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
         <a class="pill pill--glass pill--md" href="/questions">View open questions</a>
       </div>
     </div>
+    <span class="photo__credit">Photo: Umer Sayyam, public domain</span>
   </div>
 </section>

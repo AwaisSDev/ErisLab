@@ -69,6 +69,22 @@ if (mosaic && !reduced) {
   onScroll();
 }
 
+/* closing photo: slow drift while it scrolls through the viewport */
+const photo = $('[data-photo]');
+if (photo && !reduced) {
+  const img = $('[data-photo-img]', photo);
+  let ticking = false;
+  const onScroll = () => {
+    ticking = false;
+    const r = photo.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+    img.style.setProperty('--py', (p * 70).toFixed(1));
+  };
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+}
+
 /* open questions: filters + list/grid view */
 const list = $('[data-qlist]');
 if (list && $('[data-filters]')) {
