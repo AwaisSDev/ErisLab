@@ -1,0 +1,38 @@
+---
+// Legal pages: /privacy, /terms, /trademarks
+import LabLayout from '../layouts/LabLayout.astro';
+import Glyph from '../components/Glyph.astro';
+import LabNav from '../components/lab/LabNav.astro';
+import LabFooter from '../components/lab/LabFooter.astro';
+import Sections from '../components/lab/Sections.astro';
+import { site } from '../data/content.js';
+import { legalDocs, legalUpdated } from '../data/legal.js';
+
+export function getStaticPaths() {
+  return legalDocs.map(d => ({ params: { doc: d.slug } }));
+}
+const d = legalDocs.find(x => x.slug === Astro.params.doc);
+---
+<LabLayout title={`${d.title} · ${site.name}`} description={d.summary}>
+  <Glyph />
+  <LabNav />
+  <main>
+    <article class="article article--page article--legal wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">{d.title}</span></nav>
+      <h1 class="article__title article__title--xl">{d.title}</h1>
+      <p class="article__kicker">{d.summary}</p>
+      <nav class="chips" aria-label="Legal">
+        {legalDocs.map(x => <a class:list={['pill', x === d ? 'pill--ink' : 'pill--soft']} href={`/${x.slug}`} aria-current={x === d ? 'page' : undefined}>{x.title}</a>)}
+      </nav>
+      <div class="prose">
+        <Sections sections={d.sections} />
+        <p class="prose__note">Last updated {legalUpdated}. {site.legalName}, <a href={`mailto:${site.email}`} target="_blank" rel="noopener">{site.email}</a>.</p>
+      </div>
+    </article>
+  </main>
+  <LabFooter />
+</LabLayout>
+
+<script>
+  import '../scripts/lab.js';
+</script>

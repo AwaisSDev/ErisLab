@@ -3,10 +3,12 @@
 // Ongoing work is described as research, exploration or development.
 
 export const site = {
-  name: 'Eris Lab',
-  title: 'Eris Lab: AI that understands your life',
+  name: 'Eris',
+  // Legal entity: used for copyright, privacy policy, terms and trademarks.
+  legalName: 'Eris Labs',
+  title: 'Eris: AI that understands your life',
   description:
-    'Eris Lab is an independent AI research lab researching a future where AI understands people, not just prompts, through work on privacy‑first AI, personal context, memory, intelligent agents and efficient models.',
+    'Eris is an independent AI research lab researching a future where AI understands people, not just prompts, through work on privacy‑first AI, personal context, memory, intelligent agents and efficient models.',
   email: 'hello@erislabs.xyz',
 };
 
@@ -224,7 +226,7 @@ export const collaborate = [
 ];
 
 export const faq = [
-  ['Is Eris a product I can use today?', 'Eris Lab is a research lab. The projects on this site are research and development work, not launched commercial products. We’ll say so clearly when that changes.'],
+  ['Is Eris a product I can use today?', 'Eris is a research lab. The projects on this site are research and development work, not launched commercial products. We’ll say so clearly when that changes.'],
   ['Does everything run on‑device?', 'Not today. Local‑first processing is a design principle and an active research direction. We process locally where it’s practical, and we’re studying how local intelligence and frontier models should work together.'],
   ['What does “proactive” mean here?', 'Noticing what someone is likely to need, like a document before a meeting or a reminder before a deadline, and preparing it. In our research, anything consequential requires the person’s permission first.'],
   ['How do you report progress?', 'As research. We describe ongoing work as exploration or development, share results only when we can stand behind them, and label illustrative visuals as illustrative.'],

@@ -40,9 +40,16 @@ const year = new Date().getFullYear();
       </nav>
     </div>
     <div class="foot__bottom">
-      <span>© {year} {site.name}</span>
-      <span>Research reported as research. Visuals are generated from synthetic data.</span>
-      <button class="foot__top-btn" type="button" data-to-top>Back to top <span aria-hidden="true">↑</span></button>
+      <div class="foot__legal">
+        <span>© {year} {site.legalName}. All rights reserved.</span>
+        <span>Research reported as research. Visuals are generated from synthetic data.</span>
+      </div>
+      <nav class="foot__legal-links" aria-label="Legal">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Use</a>
+        <a href="/trademarks">Trademarks</a>
+        <button class="foot__top-btn" type="button" data-to-top>Back to top <span aria-hidden="true">↑</span></button>
+      </nav>
     </div>
   </div>
   <div class="foot__mark" aria-hidden="true">{site.name}</div>
