@@ -1,23 +1,24 @@
 ---
-import { roles, faq, site } from '../data/content.js';
+import { collaborate, faq, site } from '../data/content.js';
+const mail = (subject) => `mailto:${site.email}?subject=${encodeURIComponent(subject)}`;
 ---
 <section class="cine join" id="join" data-scene="4" data-chapter="join" data-chrome="light" data-frame="on">
   <div class="join__inner">
     <div class="join__intro">
-      <span class="tag">Join the lab</span>
+      <span class="tag">Collaborate</span>
       <h2 class="display" data-split>Build the AI people can actually trust.</h2>
       <p class="sub serif" data-split>We say no more often than yes — including to ourselves.</p>
     </div>
 
     <div class="join__stat">
-      <div class="stat serif"><span data-count="400">400</span></div>
-      <p>people apply for every seat at Eris. We read every application, and we hire the ones who care as much about people’s privacy as about what the models can do.</p>
+      <p class="join__thesis serif">Eris Lab is researching a future where AI understands people, not just prompts.</p>
+      <p>We’re a small, independent lab. If this is a future you want to help build — as a researcher, engineer or collaborator — we’d like to hear from you.</p>
     </div>
 
     <div class="roles">
-      <div class="roles__head mono"><span>Open roles</span><span>Team</span><span>Location</span></div>
-      {roles.map(([title, team, loc]) => (
-        <a class="role" href="#"><span class="serif">{title}</span><span class="mono">{team}</span><span class="mono">{loc}</span><b>→</b></a>
+      <div class="roles__head mono"><span>Get in touch about</span><span>For</span><span></span></div>
+      {collaborate.map(([title, who, subject]) => (
+        <a class="role" href={mail(subject)}><span class="serif">{title}</span><span class="mono">{who}</span><span class="mono">Email</span><b>→</b></a>
       ))}
     </div>
 
@@ -32,8 +33,8 @@ import { roles, faq, site } from '../data/content.js';
     </div>
 
     <div class="join__cta">
-      <a class="btn btn--ink btn--lg" href="#"><span>Apply</span><b class="btn__arrow">→</b></a>
-      <a class="btn btn--glass btn--lg" href={`mailto:${site.email}`}><span>Request a collaboration</span><b class="btn__arrow">→</b></a>
+      <a class="btn btn--ink btn--lg" href={mail('Research collaboration')}><span>Propose a collaboration</span><b class="btn__arrow">→</b></a>
+      <a class="btn btn--glass btn--lg" href={`mailto:${site.email}`}><span>{site.email}</span><b class="btn__arrow">→</b></a>
     </div>
   </div>
 </section>

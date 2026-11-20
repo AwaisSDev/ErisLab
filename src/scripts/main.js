@@ -219,41 +219,6 @@ import { drawArt } from './art.js';
   }
   requestAnimationFrame(frame);
 
-  /* ── count-ups ───────────────────────────────────────────── */
-  const cio = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      cio.unobserve(e.target);
-      const el = e.target, end = parseFloat(el.dataset.count), dec = +(el.dataset.countDec || 0);
-      if (reduced) return;
-      const start = performance.now(), dur = 1600;
-      const step = (now) => {
-        const p = clamp((now - start) / dur), v = end * (1 - Math.pow(1 - p, 4));
-        el.textContent = dec ? v.toFixed(dec) : Math.round(v).toLocaleString('en-US').replace(/,/g, ' ');
-        if (p < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    });
-  }, { threshold: 0.6 });
-  $$('[data-count]').forEach(el => cio.observe(el));
-
-  /* ── benchmarks ──────────────────────────────────────────── */
-  const bio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); bio.unobserve(e.target); } }), { threshold: 0.4 });
-  $$('.brow').forEach(r => bio.observe(r));
-
-  /* ── code tabs ───────────────────────────────────────────── */
-  $$('.code__tabs button').forEach(btn => btn.addEventListener('click', () => {
-    $$('.code__tabs button').forEach(b => b.classList.toggle('is-active', b === btn));
-    $$('.code__body').forEach(p => p.classList.toggle('is-active', p.dataset.pane === btn.dataset.tab));
-  }));
-  const copyBtn = $('[data-copy]');
-  copyBtn && copyBtn.addEventListener('click', async () => {
-    const pane = $('.code__body.is-active');
-    try { await navigator.clipboard.writeText(pane.innerText); copyBtn.textContent = 'Copied'; }
-    catch { copyBtn.textContent = 'Select & copy'; }
-    setTimeout(() => copyBtn.textContent = 'Copy', 1600);
-  });
-
   /* ── generative covers (lazy) ────────────────────────────── */
     function paint(canvas) {
     if (canvas.dataset.painted) return;

@@ -17,7 +17,11 @@ import { work } from '../data/content.js';
         <span class="tag">{w.tag}</span>
         <h3 class="h3 serif">{w.title}</h3>
         <p>{w.body}</p>
+        <ul class="work-item__list">
+          {w.points.map((p) => <li>{p}</li>)}
+        </ul>
       </article>
     ))}
+    <p class="work__note mono">Research directions — not a list of finished capabilities.</p>
   </div>
 </section>

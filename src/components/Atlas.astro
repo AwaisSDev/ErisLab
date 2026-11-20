@@ -4,9 +4,9 @@ import { atlas, atlasCats } from '../data/content.js';
 <section class="solid atlas" id="atlas" data-chapter="atlas" data-chrome="light" data-frame="off">
   <div class="wrap">
     <div class="atlas__head">
-      <span class="tag">The Atlas</span>
-      <h2 class="atlas__title serif" data-split>See how memory takes shape.</h2>
-      <p class="atlas__lede">A living collection of context graphs, memory curves and attention maps from our research — rendered from synthetic data, never from real people. Browse, filter, save.</p>
+      <span class="tag">The Atlas · Illustrative</span>
+      <h2 class="atlas__title serif" data-split>Ideas, made visible.</h2>
+      <p class="atlas__lede">A gallery of conceptual visualisations — context graphs, memory curves and agent sketches. Every image is generated from synthetic data. They illustrate ideas; they are not experimental results.</p>
       <label class="search">
         <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="M20 20l-4.2-4.2" /></svg>
         <input type="search" placeholder="Search the atlas — try “memory” or “orbit”" data-atlas-search aria-label="Search the atlas" />
@@ -23,7 +23,7 @@ import { atlas, atlasCats } from '../data/content.js';
           <div class="card__img" style={`aspect-ratio:1/${ratio}`}>
             <canvas data-art={kind} data-seed={i * 13 + 5}></canvas>
             <button class="card__save mono" type="button" aria-label={`Save ${title}`}>Save</button>
-            <span class="card__ai mono">Synthetic data</span>
+            <span class="card__ai mono">Illustrative · synthetic</span>
           </div>
           <figcaption><span>{title}</span><small class="mono">{cat}</small></figcaption>
         </figure>

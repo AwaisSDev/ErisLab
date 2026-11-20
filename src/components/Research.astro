@@ -1,38 +1,40 @@
 ---
 import { research } from '../data/content.js';
+const label = Object.fromEntries(research.areas.map((a) => [a.key, a.label]));
 ---
 <section class="solid research" id="research" data-chapter="research" data-chrome="dark" data-frame="off">
   <div class="wrap">
     <div class="research__head">
-      <h2 class="research__title" data-split>Research</h2>
+      <div>
+        <h2 class="research__title" data-split>Open questions</h2>
+        <p class="research__lede">The problems we’re working on. When we have results worth publishing, they’ll appear here.</p>
+      </div>
       <div class="filters" role="tablist" data-research-filters>
         <button class="is-active" data-filter="all">All</button>
-        <button data-filter="publication">Publications</button>
-        <button data-filter="release">Releases</button>
-        <button data-filter="safety">Privacy &amp; Safety</button>
+        {research.areas.map((a) => <button data-filter={a.key}>{a.label}</button>)}
       </div>
     </div>
 
     <div class="featured">
       {research.featured.map((f) => (
-        <a class="feat" href="#" data-reveal data-type={f.type}>
+        <article class="feat" data-reveal data-type={f.type}>
           <div class="feat__cover"><canvas data-art={f.art} data-seed={f.seed}></canvas></div>
           <div class="feat__meta">
-            <span class="mono">{f.type === 'release' ? 'Release' : 'Publication'} · {f.date}</span>
+            <span class="mono">Research direction · {f.area}</span>
             <h3>{f.title}</h3>
           </div>
-        </a>
+        </article>
       ))}
     </div>
 
     <ul class="rows">
-      {research.rows.map((r) => (
+      {research.rows.map((r, i) => (
         <li class="row" data-type={r.type} data-art={r.art} data-seed={r.seed}>
-          <a href="#"><time class="mono">{r.date}</time><span class="row__t">{r.title}</span><span class="row__c mono">{r.cat}</span><b>→</b></a>
+          <div class="row__in"><span class="row__n mono">Q.{String(i + 1).padStart(2, '0')}</span><span class="row__t">{r.title}</span><span class="row__c mono">{label[r.type]}</span><b>→</b></div>
         </li>
       ))}
     </ul>
-    <a class="more mono" href="#">View all research <b>→</b></a>
+    <p class="more mono">No publications yet — this list will link to them as they’re released.</p>
   </div>
   <div class="peek" aria-hidden="true" data-peek><canvas width="320" height="220"></canvas></div>
 </section>

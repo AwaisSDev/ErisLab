@@ -1,0 +1,51 @@
+---
+import { projects, direction, standing } from '../data/content.js';
+---
+<section class="solid model" id="projects" data-chapter="projects" data-chrome="light" data-frame="off">
+  <div class="model__glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="model__head">
+      <span class="tag">Inside the lab</span>
+      <h2 class="model__name" data-reveal>Projects</h2>
+      <p class="model__lede serif" data-split>Lines of research within the Eris Lab ecosystem. Each one is work in progress — described here only as far as we can stand behind it.</p>
+    </div>
+
+    <div class="specs projects" data-reveal>
+      {projects.map((p) => (
+        <article class="spec project">
+          <div class="project__art"><canvas data-art={p.art} data-seed={p.seed}></canvas></div>
+          <span class="mono">{p.kind}</span>
+          <b>{p.name}</b>
+          <small>{p.body}</small>
+        </article>
+      ))}
+    </div>
+    <p class="projects__note mono" data-reveal>None of these is a launched product. Specifications and results will be shared when they are ready and verified.</p>
+
+    <div class="model__grid">
+      <div class="bench" data-reveal>
+        <div class="bench__head">
+          <h3 class="mono">Technical direction</h3>
+          <span class="bench__legend mono">What the lab explores</span>
+        </div>
+        <ol class="dir">
+          {direction.map((d, i) => (
+            <li><span class="mono">{String(i + 1).padStart(2, '0')}</span>{d}</li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="code" data-reveal>
+        <div class="code__bar">
+          <span class="code__label mono">Where things stand</span>
+        </div>
+        <dl class="standing">
+          {standing.map(([t, d]) => (
+            <div><dt class="serif">{t}</dt><dd>{d}</dd></div>
+          ))}
+        </dl>
+        <div class="code__foot mono"><span class="dot"></span>Research in progress · reported honestly</div>
+      </div>
+    </div>
+  </div>
+</section>
