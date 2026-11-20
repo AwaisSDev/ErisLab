@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from './ArrowUpRight.astro';
 // Full-bleed photo section that closes every lab page.
 // Photo: "Golden Gate Bridge at Purple sunset" by Umer Sayyam, CC0 (public domain), via Wikimedia Commons.
 import { site } from '../../data/content.js';
@@ -20,7 +21,7 @@ const {
       <h2>{title}</h2>
       <p>{body}</p>
       <div class="photo__actions">
-        <a class="pill pill--light pill--md" href={`mailto:${site.email}`} target="_blank" rel="noopener">Get in touch <span aria-hidden="true">↗</span></a>
+        <a class="pill pill--light pill--md" href={`mailto:${site.email}`} target="_blank" rel="noopener">Get in touch <ArrowUpRight /></a>
         <a class="pill pill--glass pill--md" href={secondaryHref}>{secondaryLabel}</a>
       </div>
     </div>

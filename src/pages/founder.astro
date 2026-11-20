@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../components/lab/ArrowUpRight.astro';
 import LabLayout from '../layouts/LabLayout.astro';
 import Glyph from '../components/Glyph.astro';
 import LabNav from '../components/lab/LabNav.astro';
@@ -20,8 +21,8 @@ const ext = { target: '_blank', rel: 'noopener' };
       <h1 class="article__title article__title--xl" data-rise>{founder.name}</h1>
       <p class="article__kicker" data-rise>{founder.role}, {site.name} · {founder.location}</p>
       <div class="article__actions" data-rise>
-        <a class="pill pill--ink pill--md" href={founder.links[1][2]} {...ext}>LinkedIn <span aria-hidden="true">↗</span></a>
-        <a class="pill pill--soft pill--md" href={founder.links[0][2]} {...ext}>Personal site <span aria-hidden="true">↗</span></a>
+        <a class="pill pill--ink pill--md" href={founder.links[1][2]} {...ext}>LinkedIn <ArrowUpRight /></a>
+        <a class="pill pill--soft pill--md" href={founder.links[0][2]} {...ext}>Personal site <ArrowUpRight /></a>
       </div>
 
       <div class="prose">
@@ -35,7 +36,7 @@ const ext = { target: '_blank', rel: 'noopener' };
       <div class="founder-list">
         {founder.research.map(r => (
           <a class="founder-item" href={r.href} {...ext}>
-            <b>{r.name}</b><span>{r.line}</span><em>{r.status}</em><i aria-hidden="true">↗</i>
+            <b>{r.name}</b><span>{r.line}</span><em>{r.status}</em><i><ArrowUpRight /></i>
           </a>
         ))}
       </div>
@@ -43,7 +44,7 @@ const ext = { target: '_blank', rel: 'noopener' };
       <div class="founder-list">
         {founder.products.map(r => (
           <a class="founder-item" href={r.href} {...ext}>
-            <b>{r.name}</b><span>{r.line}</span><em>{r.status}</em><i aria-hidden="true">↗</i>
+            <b>{r.name}</b><span>{r.line}</span><em>{r.status}</em><i><ArrowUpRight /></i>
           </a>
         ))}
       </div>
@@ -54,9 +55,9 @@ const ext = { target: '_blank', rel: 'noopener' };
       </div>
       <div class="founder-list founder-list--links">
         {founder.links.map(([t, s, href]) => (
-          <a class="founder-item" href={href} {...ext}><b>{t}</b><span>{s}</span><i aria-hidden="true">↗</i></a>
+          <a class="founder-item" href={href} {...ext}><b>{t}</b><span>{s}</span><i><ArrowUpRight /></i></a>
         ))}
-        <a class="founder-item" href={`mailto:${site.email}`} target="_blank" rel="noopener"><b>Email Eris</b><span>{site.email}</span><i aria-hidden="true">↗</i></a>
+        <a class="founder-item" href={`mailto:${site.email}`} target="_blank" rel="noopener"><b>Email Eris</b><span>{site.email}</span><i><ArrowUpRight /></i></a>
       </div>
     </article>
 

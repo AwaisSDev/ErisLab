@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from './ArrowUpRight.astro';
 import { site, philosophy } from '../../data/content.js';
 import { areas, projectList } from '../../data/lab.js';
 const year = new Date().getFullYear();
@@ -10,7 +11,7 @@ const year = new Date().getFullYear();
         <a class="brand" href="/"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg><span>{site.name}</span></a>
         <p>{philosophy}</p>
         <div class="foot__actions">
-          <a class="pill pill--ink" href={`mailto:${site.email}`} target="_blank" rel="noopener">Get in touch <span aria-hidden="true">↗</span></a>
+          <a class="pill pill--ink" href={`mailto:${site.email}`} target="_blank" rel="noopener">Get in touch <ArrowUpRight /></a>
           <a class="textlink" href={`mailto:${site.email}`} target="_blank" rel="noopener">{site.email}</a>
         </div>
       </div>

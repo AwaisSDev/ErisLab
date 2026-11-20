@@ -1,4 +1,5 @@
 ---
+import ArrowUpRight from '../components/lab/ArrowUpRight.astro';
 import LabLayout from '../layouts/LabLayout.astro';
 import Glyph from '../components/Glyph.astro';
 import LabNav from '../components/lab/LabNav.astro';
@@ -142,7 +143,7 @@ const tiles = [
       <a class="pill pill--soft pill--md" href={`mailto:${site.email}`} target="_blank" rel="noopener" data-rise>{site.email}</a>
       <ul class="rows rows--links">
         {collaborate.map(([t, s, subj]) => (
-          <li data-rise><b>{t}</b><span class="muted">{s}</span><a href={mail(subj)} target="_blank" rel="noopener">Email us <span aria-hidden="true">↗</span></a></li>
+          <li data-rise><b>{t}</b><span class="muted">{s}</span><a href={mail(subj)} target="_blank" rel="noopener">Email us <ArrowUpRight /></a></li>
         ))}
       </ul>
     </section>
