@@ -1,0 +1,11 @@
+---
+// Renders [heading, items] pairs: one item is a paragraph, several become a list.
+interface Props { sections: [string, string[]][] }
+const { sections } = Astro.props;
+---
+{sections.map(([h, items]) => (
+  <>
+    <h2>{h}</h2>
+    {items.length === 1 ? <p>{items[0]}</p> : <ul class="prose__list">{items.map(i => <li>{i}</li>)}</ul>}
+  </>
+))}

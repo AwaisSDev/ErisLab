@@ -1,0 +1,30 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import Glyph from '../../components/Glyph.astro';
+import LabNav from '../../components/lab/LabNav.astro';
+import LabFooter from '../../components/lab/LabFooter.astro';
+import CtaPanel from '../../components/lab/CtaPanel.astro';
+import QuestionIndex from '../../components/lab/QuestionIndex.astro';
+import { site } from '../../data/content.js';
+import { questions } from '../../data/lab.js';
+---
+<LabLayout title={`Open questions · ${site.name}`} description="The research questions Eris Lab is working on across privacy, personal context, memory, agents and efficient AI.">
+  <Glyph />
+  <LabNav current="questions" />
+  <main>
+    <section class="page-head wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Open questions</span></nav>
+      <h1 class="page-head__title" data-rise>Open questions</h1>
+      <p class="page-head__lede" data-rise>We describe our research as the questions we’re trying to answer. {questions.length} of them, across five areas. None are solved; each page says what we’re exploring and what we’re not claiming.</p>
+    </section>
+    <section class="index index--page wrap">
+      <QuestionIndex />
+    </section>
+    <CtaPanel />
+  </main>
+  <LabFooter />
+</LabLayout>
+
+<script>
+  import '../../scripts/lab.js';
+</script>

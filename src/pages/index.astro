@@ -1,35 +1,168 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import LabLayout from '../layouts/LabLayout.astro';
 import Glyph from '../components/Glyph.astro';
-import Chrome from '../components/Chrome.astro';
-import Hero from '../components/Hero.astro';
-import Thesis from '../components/Thesis.astro';
-import Work from '../components/Work.astro';
-import Context from '../components/Context.astro';
-import Projects from '../components/Projects.astro';
-import Research from '../components/Research.astro';
-import Atlas from '../components/Atlas.astro';
-import Principles from '../components/Principles.astro';
-import Join from '../components/Join.astro';
-import Footer from '../components/Footer.astro';
+import LabNav from '../components/lab/LabNav.astro';
+import LabFooter from '../components/lab/LabFooter.astro';
+import CtaPanel from '../components/lab/CtaPanel.astro';
+import QuestionIndex from '../components/lab/QuestionIndex.astro';
+import { site, mission, philosophy, direction, standing, principles, collaborate, faq } from '../data/content.js';
+import { areas, areaCards, areaLabel, questions, projectList, mail, pad } from '../data/lab.js';
+
+const feature = questions[0];
+
+// hero mosaic tiles: [art, seed, gridArea, parallax]
+const tiles = [
+  ['flow', 26, '1 / 1 / 5 / 2', -0.6],
+  ['halftone', 8, '1 / 2 / 3 / 4', 0.35],
+  ['orbit', 1, '3 / 2 / 5 / 3', -0.3],
+  ['contour', 35, '3 / 3 / 5 / 4', 0.5],
+  ['planet', 44, '1 / 4 / 5 / 5', -0.45],
+  ['attention', 12, '1 / 5 / 3 / 7', 0.4],
+  ['contour', 9, '3 / 5 / 5 / 6', -0.25],
+  ['orbit', 13, '3 / 6 / 5 / 7', 0.55],
+];
 ---
-<Layout>
+<LabLayout title={site.title}>
   <Glyph />
-  <Chrome />
-  <main id="top">
-    <Hero />
-    <Thesis />
-    <Work />
-    <Context />
-    <Projects />
-    <Research />
-    <Atlas />
-    <Principles />
-    <Join />
+  <LabNav />
+
+  <main>
+    <!-- hero -->
+    <section class="hero wrap">
+      <span class="label" data-rise>Independent AI research lab</span>
+      <h1 class="hero__title" data-rise>AI that understands people, <span class="tone">not just prompts</span></h1>
+      <p class="hero__lede" data-rise>{mission}</p>
+      <div class="hero__cta" data-rise>
+        <a class="pill pill--soft pill--md" href="/questions">View open questions</a>
+        <a class="textlink" href="#principles">Read our principles <span aria-hidden="true">›</span></a>
+      </div>
+      <div class="mosaic" data-mosaic data-rise>
+        {tiles.map(([art, seed, area, k]) => (
+          <div class="tile" style={`grid-area:${area}`}><canvas data-art={art} data-seed={seed} data-par={k} aria-hidden="true"></canvas></div>
+        ))}
+      </div>
+    </section>
+
+    <!-- focus statement -->
+    <section class="focus wrap" id="focus">
+      <span class="label" data-rise>Focus areas</span>
+      <p class="focus__text" data-rise>{philosophy} We study this through five areas of research.</p>
+      <div class="chips" data-rise>
+        {areas.map(a => <a class="pill pill--soft" href={`#area-${a.key}`}>{a.tag}</a>)}
+      </div>
+    </section>
+
+    <!-- one section per area, three cards each -->
+    {areas.map(a => (
+      <section class="area wrap" id={`area-${a.key}`}>
+        <h2 class="area__title" data-rise>{a.tag}</h2>
+        <p class="area__body" data-rise>{a.body}</p>
+        <a class="textlink area__link" href={a.href} data-rise>Explore this area <span aria-hidden="true">›</span></a>
+        <div class="cards">
+          {areaCards(a.key).map(c => (
+            <a class="card" href={c.href} data-rise>
+              <div class="card__media"><canvas data-art={c.art} data-seed={c.seed} aria-hidden="true"></canvas></div>
+              <h3 class="card__title">{c.title}</h3>
+              <p class="card__meta"><b>{a.label}</b><span>{c.meta}</span></p>
+            </a>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <!-- featured question, article layout -->
+    <section class="article wrap">
+      <nav class="crumbs" aria-label="Featured"><a href="/questions">Open questions</a><span>/</span><a href={feature.area.href}>{feature.area.tag}</a></nav>
+      <h2 class="article__title" data-rise>{feature.title}</h2>
+      <a class="pill pill--ink pill--md" href={feature.href} data-rise>Read the question</a>
+      <a class="article__media" href={feature.href} data-rise aria-label={feature.title}>
+        <canvas data-art={feature.art} data-seed={feature.seed} aria-hidden="true"></canvas>
+      </a>
+      <div class="prose" data-rise>
+        <p>{feature.summary} {feature.sections[0][1][0]}</p>
+        <p><a class="textlink" href={feature.href}>Continue reading <span aria-hidden="true">›</span></a></p>
+      </div>
+    </section>
+
+    <!-- projects -->
+    <section class="area wrap" id="projects">
+      <h2 class="area__title" data-rise>Projects</h2>
+      <p class="area__body" data-rise>Research and development work across context, routing, local agents and frontier reasoning. None of these are launched products.</p>
+      <div class="cards cards--2">
+        {projectList.map(p => (
+          <a class="card" href={p.href} data-rise>
+            <div class="card__media card__media--wide">
+              <canvas data-art={p.art} data-seed={p.seed} aria-hidden="true"></canvas>
+              <span class="card__overlay">{p.name}</span>
+            </div>
+            <h3 class="card__title">{p.body}</h3>
+            <p class="card__meta"><b>{p.name}</b><span>{p.kind}</span></p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- latest open questions -->
+    <section class="index wrap" id="index">
+      <div class="index__head">
+        <h2 class="index__title">Open questions</h2>
+        <a class="pill pill--soft pill--md" href="/questions">View all {questions.length}</a>
+      </div>
+      <QuestionIndex controls={false} limit={5} />
+    </section>
+
+    <!-- direction + limitations, article prose -->
+    <section class="article article--text wrap" id="direction">
+      <div class="prose">
+        <h2>Technical direction</h2>
+        <p>The work above breaks down into a set of concrete research directions:</p>
+        <ol class="prose__list">
+          {direction.map(d => <li>{d}</li>)}
+        </ol>
+        <h2>Where we stand</h2>
+        {standing.map(([t, b]) => <p><b>{t}</b> {b}</p>)}
+      </div>
+    </section>
+
+    <!-- principles, row list -->
+    <section class="rows-sec wrap" id="principles">
+      <h2 class="area__title" data-rise>Principles</h2>
+      <p class="area__body" data-rise>What we hold ourselves to while doing this research.</p>
+      <ul class="rows">
+        {principles.map((p, i) => (
+          <li data-rise><span class="rows__num">{pad(i + 1)}</span><b>{p.title}</b><span class="muted">{p.body}</span></li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- collaborate, roles-style rows -->
+    <section class="rows-sec wrap" id="collaborate">
+      <h2 class="area__title" data-rise>Collaborate</h2>
+      <p class="area__body" data-rise>We’re a small, independent lab. If these questions matter to you, we’d like to hear from you.</p>
+      <a class="pill pill--soft pill--md" href={`mailto:${site.email}`} data-rise>{site.email}</a>
+      <ul class="rows rows--links">
+        {collaborate.map(([t, s, subj]) => (
+          <li data-rise><b>{t}</b><span class="muted">{s}</span><a href={mail(subj)}>Email us <span aria-hidden="true">↗</span></a></li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- faq -->
+    <section class="rows-sec wrap" id="faq">
+      <h2 class="area__title" data-rise>Questions about the lab</h2>
+      <div class="faq">
+        {faq.map(([q, a]) => (
+          <details><summary>{q}<i aria-hidden="true"></i></summary><p class="muted">{a}</p></details>
+        ))}
+      </div>
+    </section>
+
+    <CtaPanel />
   </main>
-  <Footer />
-</Layout>
+
+  <LabFooter />
+</LabLayout>
 
 <script>
-  import '../scripts/main.js';
+  import '../scripts/lab.js';
 </script>

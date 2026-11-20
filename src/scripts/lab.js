@@ -1,4 +1,4 @@
-// Behaviour for the /research page.
+// Behaviour shared by the lab pages (home, open questions, projects, focus areas).
 import { drawArt } from './art.js';
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -39,53 +39,66 @@ if (!reduced) {
 /* mobile menu */
 const menuBtn = $('[data-menu-btn]');
 const drawer = $('[data-drawer]');
-const setMenu = (open) => {
-  drawer.hidden = !open;
-  menuBtn.setAttribute('aria-expanded', String(open));
-  menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-  document.documentElement.style.overflow = open ? 'hidden' : '';
-};
-menuBtn.addEventListener('click', () => setMenu(drawer.hidden));
-$$('a', drawer).forEach(a => a.addEventListener('click', () => setMenu(false)));
-addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
-addEventListener('resize', () => { if (innerWidth > 1080) setMenu(false); });
+if (menuBtn && drawer) {
+  const setMenu = (open) => {
+    drawer.hidden = !open;
+    menuBtn.setAttribute('aria-expanded', String(open));
+    menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+  };
+  menuBtn.addEventListener('click', () => setMenu(drawer.hidden));
+  $$('a', drawer).forEach(a => a.addEventListener('click', () => setMenu(false)));
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  addEventListener('resize', () => { if (innerWidth > 1080) setMenu(false); });
+}
 
 /* hero mosaic parallax */
 const mosaic = $('[data-mosaic]');
-const tiles = $$('canvas', mosaic);
-let ticking = false;
-function onScroll() {
-  ticking = false;
-  const vh = innerHeight;
-  const r = mosaic.getBoundingClientRect();
-  if (r.bottom < 0 || r.top > vh) return;
-  const p = (r.top + r.height / 2 - vh / 2) / vh;
-  tiles.forEach(c => c.style.setProperty('--py', (p * 60 * +c.dataset.par).toFixed(1)));
-}
-if (!reduced) {
+if (mosaic && !reduced) {
+  const tiles = $$('canvas', mosaic);
+  let ticking = false;
+  const onScroll = () => {
+    ticking = false;
+    const vh = innerHeight;
+    const r = mosaic.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > vh) return;
+    const p = (r.top + r.height / 2 - vh / 2) / vh;
+    tiles.forEach(c => c.style.setProperty('--py', (p * 60 * +c.dataset.par).toFixed(1)));
+  };
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   onScroll();
 }
 
 /* open questions: filters + list/grid view */
 const list = $('[data-qlist]');
-const items = $$('.q', list);
-const swap = (fn) => (reduced || !document.startViewTransition) ? fn() : document.startViewTransition(fn);
-$$('[data-filters] button').forEach(b => b.addEventListener('click', () => swap(() => {
-  $$('[data-filters] button').forEach(x => x.classList.toggle('is-active', x === b));
-  items.forEach(it => it.hidden = b.dataset.filter !== 'all' && it.dataset.type !== b.dataset.filter);
-  watchArt(list);
-})));
-$$('[data-views] button').forEach(b => b.addEventListener('click', () => swap(() => {
-  $$('[data-views] button').forEach(x => x.classList.toggle('is-active', x === b));
-  list.dataset.view = b.dataset.view;
-  watchArt(list);
-})));
+if (list && $('[data-filters]')) {
+  const items = $$('.q', list);
+  const swap = (fn) => (reduced || !document.startViewTransition) ? fn() : document.startViewTransition(fn);
+  $$('[data-filters] button').forEach(b => b.addEventListener('click', () => swap(() => {
+    $$('[data-filters] button').forEach(x => x.classList.toggle('is-active', x === b));
+    items.forEach(it => it.hidden = b.dataset.filter !== 'all' && it.dataset.type !== b.dataset.filter);
+    watchArt(list);
+  })));
+  $$('[data-views] button').forEach(b => b.addEventListener('click', () => swap(() => {
+    $$('[data-views] button').forEach(x => x.classList.toggle('is-active', x === b));
+    list.dataset.view = b.dataset.view;
+    watchArt(list);
+  })));
+}
 
-/* smooth in-page anchors, offset by the sticky nav */
-$$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
-  const t = $(a.getAttribute('href'));
-  if (!t) return;
-  e.preventDefault();
-  scrollTo({ top: t.getBoundingClientRect().top + scrollY - 76, behavior: reduced ? 'auto' : 'smooth' });
+/* back to top */
+$$('[data-to-top]').forEach(b => b.addEventListener('click', () => scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' })));
+
+/* smooth in-page anchors (including "/#id" links when already on that page), offset by the sticky nav */
+const scrollToId = (id, smooth = true) => {
+  const t = document.getElementById(id);
+  if (!t) return false;
+  scrollTo({ top: t.getBoundingClientRect().top + scrollY - 76, behavior: smooth && !reduced ? 'smooth' : 'auto' });
+  return true;
+};
+$$('a[href*="#"]').forEach(a => a.addEventListener('click', e => {
+  const url = new URL(a.href, location.href);
+  if (url.pathname !== location.pathname || !url.hash) return;
+  if (scrollToId(decodeURIComponent(url.hash.slice(1)))) { e.preventDefault(); history.replaceState(null, '', url.hash); }
 }));
+if (location.hash) addEventListener('load', () => scrollToId(decodeURIComponent(location.hash.slice(1)), false));

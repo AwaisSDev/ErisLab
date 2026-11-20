@@ -6,4 +6,6 @@ export default defineConfig({
   site: 'https://erislab.vercel.app',
   build: { inlineStylesheets: 'auto' },
   compressHTML: true,
+  // The research page is now the homepage.
+  redirects: { '/research': '/' },
 });

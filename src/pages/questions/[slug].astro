@@ -1,0 +1,64 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import Glyph from '../../components/Glyph.astro';
+import LabNav from '../../components/lab/LabNav.astro';
+import LabFooter from '../../components/lab/LabFooter.astro';
+import CtaPanel from '../../components/lab/CtaPanel.astro';
+import Sections from '../../components/lab/Sections.astro';
+import { site } from '../../data/content.js';
+import { questions, mail } from '../../data/lab.js';
+
+export function getStaticPaths() {
+  return questions.map(q => ({ params: { slug: q.slug } }));
+}
+const q = questions.find(x => x.slug === Astro.params.slug);
+const i = questions.indexOf(q);
+const related = [
+  ...questions.filter(x => x !== q && x.type === q.type),
+  ...questions.filter(x => x !== q && x.type !== q.type),
+].slice(0, 3);
+const next = questions[(i + 1) % questions.length];
+---
+<LabLayout title={`${q.title} · ${site.name}`} description={q.summary}>
+  <Glyph />
+  <LabNav current="questions" />
+  <main>
+    <article class="article article--page wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/questions">Open questions</a><span>/</span><a href={q.area.href}>{q.area.tag}</a></nav>
+      <h1 class="article__title" data-rise>{q.title}</h1>
+      <div class="article__actions" data-rise>
+        <a class="pill pill--ink pill--md" href={mail(q.title)}>Discuss this question</a>
+        <a class="pill pill--soft pill--md" href={q.area.href}>{q.area.tag}</a>
+      </div>
+      <div class="article__media" data-rise><canvas data-art={q.art} data-seed={q.seed} aria-hidden="true"></canvas></div>
+      <div class="prose">
+        <p class="prose__lead">{q.summary}</p>
+        <Sections sections={q.sections} />
+        <div class="prose__foot">
+          <span class="muted">{q.featured ? 'Featured question' : 'Open question'} · {q.area.tag}</span>
+          <a class="textlink" href={next.href}>Next: {next.title} <span aria-hidden="true">›</span></a>
+        </div>
+      </div>
+    </article>
+
+    <section class="area wrap">
+      <h2 class="area__title" data-rise>Related questions</h2>
+      <div class="cards">
+        {related.map(r => (
+          <a class="card" href={r.href} data-rise>
+            <div class="card__media"><canvas data-art={r.art} data-seed={r.seed} aria-hidden="true"></canvas></div>
+            <h3 class="card__title">{r.title}</h3>
+            <p class="card__meta"><b>{r.area.label}</b><span>Open question</span></p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <CtaPanel />
+  </main>
+  <LabFooter />
+</LabLayout>
+
+<script>
+  import '../../scripts/lab.js';
+</script>

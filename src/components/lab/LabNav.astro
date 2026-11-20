@@ -1,0 +1,32 @@
+---
+import { site } from '../../data/content.js';
+interface Props { current?: string }
+const { current = '' } = Astro.props;
+const links = [
+  ['research', 'Research', '/#focus'],
+  ['projects', 'Projects', '/#projects'],
+  ['questions', 'Open questions', '/questions'],
+  ['principles', 'Principles', '/#principles'],
+  ['collaborate', 'Collaborate', '/#collaborate'],
+];
+---
+<header class="nav" data-nav>
+  <div class="nav__in">
+    <a class="brand" href="/" aria-label={`${site.name} home`}>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg>
+      <span>{site.name}</span>
+    </a>
+    <nav class="nav__links" aria-label="Main">
+      {links.map(([k, label, href]) => <a href={href} aria-current={k === current ? 'page' : undefined}>{label}</a>)}
+    </nav>
+    <div class="nav__cta">
+      <a class="pill pill--ink" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
+      <button class="burger" type="button" aria-label="Open menu" aria-expanded="false" data-menu-btn><i></i><i></i></button>
+    </div>
+  </div>
+  <div class="drawer" data-drawer hidden>
+    <a href="/">Home</a>
+    {links.map(([, label, href]) => <a href={href}>{label}</a>)}
+    <a class="pill pill--ink pill--lg" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
+  </div>
+</header>

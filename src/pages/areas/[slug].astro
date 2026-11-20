@@ -1,0 +1,67 @@
+---
+import LabLayout from '../../layouts/LabLayout.astro';
+import Glyph from '../../components/Glyph.astro';
+import LabNav from '../../components/lab/LabNav.astro';
+import LabFooter from '../../components/lab/LabFooter.astro';
+import CtaPanel from '../../components/lab/CtaPanel.astro';
+import QuestionIndex from '../../components/lab/QuestionIndex.astro';
+import { site } from '../../data/content.js';
+import { areas, projectList, mail } from '../../data/lab.js';
+
+export function getStaticPaths() {
+  return areas.map(a => ({ params: { slug: a.slug } }));
+}
+const a = areas.find(x => x.slug === Astro.params.slug);
+const projects = projectList.filter(p => p.areas.includes(a.key));
+const others = areas.filter(x => x !== a);
+---
+<LabLayout title={`${a.tag} · ${site.name}`} description={a.lede}>
+  <Glyph />
+  <LabNav current="research" />
+  <main>
+    <article class="article article--page wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><a href="/#focus">Focus areas</a><span>/</span><span aria-current="page">{a.tag}</span></nav>
+      <h1 class="article__title article__title--xl" data-rise>{a.tag}</h1>
+      <p class="article__kicker" data-rise>{a.title}</p>
+      <div class="article__media" data-rise><canvas data-art={a.art[0]} data-seed={a.art[1]} aria-hidden="true"></canvas></div>
+      <div class="prose">
+        <p class="prose__lead">{a.lede}</p>
+        <h2>Why it matters</h2>
+        <p>{a.why}</p>
+        <h2>What we study</h2>
+        <p>{a.body}</p>
+        <ul class="prose__list">{a.points.map(p => <li>{p}</li>)}</ul>
+        {projects.length > 0 && (
+          <>
+            <h2>Related projects</h2>
+            <div class="chips chips--left">
+              {projects.map(p => <a class="pill pill--soft" href={p.href}>{p.name}: {p.kind}</a>)}
+            </div>
+          </>
+        )}
+        <p class="prose__note">This is research. Some directions are in development; others are early exploration. <a href={mail(a.tag)}>Talk to us about this area</a>.</p>
+      </div>
+    </article>
+
+    <section class="index index--page wrap">
+      <div class="index__head">
+        <h2 class="index__title">Open questions in this area</h2>
+      </div>
+      <QuestionIndex controls={false} filter={a.key} />
+    </section>
+
+    <section class="area wrap">
+      <h2 class="area__title" data-rise>Other focus areas</h2>
+      <div class="chips" data-rise>
+        {others.map(o => <a class="pill pill--soft pill--md" href={o.href}>{o.tag}</a>)}
+      </div>
+    </section>
+
+    <CtaPanel />
+  </main>
+  <LabFooter />
+</LabLayout>
+
+<script>
+  import '../../scripts/lab.js';
+</script>

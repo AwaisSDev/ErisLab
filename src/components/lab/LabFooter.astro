@@ -1,0 +1,49 @@
+---
+import { site, philosophy } from '../../data/content.js';
+import { areas, projectList } from '../../data/lab.js';
+const year = new Date().getFullYear();
+---
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__top">
+      <div class="foot__intro">
+        <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg><span>{site.name}</span></a>
+        <p>{philosophy}</p>
+        <div class="foot__actions">
+          <a class="pill pill--ink" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
+          <a class="textlink" href={`mailto:${site.email}`}>{site.email}</a>
+        </div>
+      </div>
+      <nav class="foot__cols" aria-label="Footer">
+        <div>
+          <h4>Research</h4>
+          <a href="/questions">Open questions</a>
+          <a href="/#focus">Focus areas</a>
+          <a href="/#direction">Technical direction</a>
+          <a href="/#principles">Principles</a>
+        </div>
+        <div>
+          <h4>Focus areas</h4>
+          {areas.map(a => <a href={a.href}>{a.tag}</a>)}
+        </div>
+        <div>
+          <h4>Projects</h4>
+          {projectList.map(p => <a href={p.href}>{p.name}</a>)}
+        </div>
+        <div>
+          <h4>Lab</h4>
+          <a href="/#collaborate">Collaborate</a>
+          <a href="/#faq">FAQ</a>
+          <a href={`mailto:${site.email}`}>Contact</a>
+          <a href="/classic">Classic site</a>
+        </div>
+      </nav>
+    </div>
+    <div class="foot__bottom">
+      <span>© {year} {site.name}</span>
+      <span>Research reported as research. Visuals are generated from synthetic data.</span>
+      <button class="foot__top-btn" type="button" data-to-top>Back to top <span aria-hidden="true">↑</span></button>
+    </div>
+  </div>
+  <div class="foot__mark" aria-hidden="true">{site.name}</div>
+</footer>

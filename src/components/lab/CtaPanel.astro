@@ -1,0 +1,23 @@
+---
+import { site } from '../../data/content.js';
+interface Props { title?: string; body?: string; art?: string; seed?: number }
+const {
+  title = 'Work on these questions with us',
+  body = 'We’re a small, independent lab. If privacy, memory, context or agents are questions you care about, we’d like to hear from you.',
+  art = 'flow',
+  seed = 26,
+} = Astro.props;
+---
+<section class="wrap">
+  <div class="cta" data-rise>
+    <canvas data-art={art} data-seed={seed} aria-hidden="true"></canvas>
+    <div class="cta__in">
+      <h2>{title}</h2>
+      <p>{body}</p>
+      <div class="cta__actions">
+        <a class="pill pill--light pill--md" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
+        <a class="pill pill--glass pill--md" href="/questions">View open questions</a>
+      </div>
+    </div>
+  </div>
+</section>
