@@ -2,10 +2,12 @@
 // Full-bleed photo section that closes every lab page.
 // Photo: "Golden Gate Bridge at Purple sunset" by Umer Sayyam, CC0 (public domain), via Wikimedia Commons.
 import { site } from '../../data/content.js';
-interface Props { title?: string; body?: string }
+interface Props { title?: string; body?: string; secondaryLabel?: string; secondaryHref?: string }
 const {
   title = 'AI that fits into the life you already live',
   body = 'We’re a small, independent lab researching AI that understands people, not just prompts. If that matters to you, we’d like to hear from you.',
+  secondaryLabel = 'View open questions',
+  secondaryHref = '/questions',
 } = Astro.props;
 ---
 <section class="photo" data-photo>
@@ -19,7 +21,7 @@ const {
       <p>{body}</p>
       <div class="photo__actions">
         <a class="pill pill--light pill--md" href={`mailto:${site.email}`} target="_blank" rel="noopener">Get in touch <span aria-hidden="true">↗</span></a>
-        <a class="pill pill--glass pill--md" href="/questions">View open questions</a>
+        <a class="pill pill--glass pill--md" href={secondaryHref}>{secondaryLabel}</a>
       </div>
     </div>
   </div>

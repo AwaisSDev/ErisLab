@@ -1,0 +1,95 @@
+---
+import LabLayout from '../layouts/LabLayout.astro';
+import Glyph from '../components/Glyph.astro';
+import LabNav from '../components/lab/LabNav.astro';
+import LabFooter from '../components/lab/LabFooter.astro';
+import CtaPanel from '../components/lab/CtaPanel.astro';
+import { site } from '../data/content.js';
+import { careers } from '../data/company.js';
+---
+<LabLayout title={`Careers · ${site.name}`} description="Equity‑based, remote roles at Eris, an independent AI research lab working on privacy‑first, personal AI.">
+  <Glyph />
+  <LabNav current="careers" />
+  <main>
+    <section class="page-head wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Careers</span></nav>
+      <h1 class="page-head__title" data-rise>Build personal AI people can trust</h1>
+      <p class="page-head__lede" data-rise>{careers.intro}</p>
+      <div class="hero__cta" data-rise>
+        <a class="pill pill--ink pill--md" href="#roles">See open roles</a>
+        <a class="textlink" href="#apply">Apply <span aria-hidden="true">›</span></a>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <div class="terms" data-rise>
+        {careers.terms.map(([t, b]) => <div><b>{t}</b><p class="muted">{b}</p></div>)}
+      </div>
+    </section>
+
+    <section class="rows-sec wrap" id="roles">
+      <h2 class="area__title" data-rise>Open roles</h2>
+      <p class="area__body" data-rise>{careers.roles.length} roles, all equity‑based and remote. Open one to read more.</p>
+      <div class="roles">
+        {careers.roles.map(r => (
+          <details class="role" id={r.slug}>
+            <summary>
+              <span class="role__title">{r.title}</span>
+              <span class="role__meta muted">{r.team}</span>
+              <span class="role__meta muted">Remote · Equity</span>
+              <i aria-hidden="true"></i>
+            </summary>
+            <div class="role__body">
+              <p class="role__summary">{r.summary}</p>
+              <div class="role__cols">
+                <div><h4>What you’d work on</h4><ul>{r.work.map(w => <li>{w}</li>)}</ul></div>
+                <div><h4>You might be a fit if</h4><ul>{r.fit.map(f => <li>{f}</li>)}</ul></div>
+              </div>
+              <a class="pill pill--ink pill--md" href="#apply" data-apply={r.title}>Apply for this role</a>
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="rows-sec wrap" id="apply">
+      <h2 class="area__title" data-rise>Apply</h2>
+      <p class="area__body" data-rise>Tell us who you are and what you’d like to work on. Submitting opens your email app with your application filled in, addressed to {site.email}. Nothing is stored on this site.</p>
+      <form class="apply" data-apply-form novalidate data-rise>
+        <div class="apply__row">
+          <label><span>Name</span><input name="name" type="text" autocomplete="name" required /></label>
+          <label><span>Email</span><input name="email" type="email" autocomplete="email" required /></label>
+        </div>
+        <div class="apply__row">
+          <label><span>Role</span>
+            <select name="role" required>
+              {careers.roles.map(r => <option>{r.title}</option>)}
+              <option>Something else</option>
+            </select>
+          </label>
+          <label><span>Time you can give</span>
+            <select name="time">
+              <option>Part‑time</option>
+              <option>Full‑time</option>
+              <option>Not sure yet</option>
+            </select>
+          </label>
+        </div>
+        <label><span>Links <em>(GitHub, LinkedIn, portfolio, papers)</em></span><input name="links" type="text" /></label>
+        <label><span>Why Eris, and what you’d work on</span><textarea name="message" rows="6" required></textarea></label>
+        <div class="apply__foot">
+          <button class="pill pill--ink pill--md" type="submit">Submit application</button>
+          <p class="apply__status muted" data-apply-status role="status" aria-live="polite">Or email <a href={`mailto:${site.email}?subject=${encodeURIComponent('Application')}`} target="_blank" rel="noopener">{site.email}</a> directly.</p>
+        </div>
+      </form>
+    </section>
+
+    <CtaPanel />
+  </main>
+  <LabFooter />
+</LabLayout>
+
+<script>
+  import '../scripts/lab.js';
+  import '../scripts/careers.js';
+</script>

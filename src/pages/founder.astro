@@ -1,0 +1,71 @@
+---
+import LabLayout from '../layouts/LabLayout.astro';
+import Glyph from '../components/Glyph.astro';
+import LabNav from '../components/lab/LabNav.astro';
+import LabFooter from '../components/lab/LabFooter.astro';
+import CtaPanel from '../components/lab/CtaPanel.astro';
+import { site } from '../data/content.js';
+import { founder } from '../data/company.js';
+const ext = { target: '_blank', rel: 'noopener' };
+---
+<LabLayout title={`${founder.name}, ${founder.role} · ${site.name}`} description={founder.lead}>
+  <Glyph />
+  <LabNav current="founder" />
+  <main>
+    <article class="article article--page wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span>/</span><span aria-current="page">Founder</span></nav>
+      <div class="avatar" data-rise aria-hidden="true">
+        <canvas data-art="planet" data-seed="44"></canvas>
+        <span>AS</span>
+      </div>
+      <h1 class="article__title article__title--xl" data-rise>{founder.name}</h1>
+      <p class="article__kicker" data-rise>{founder.role}, {site.name} · {founder.location}</p>
+      <div class="article__actions" data-rise>
+        <a class="pill pill--ink pill--md" href={founder.links[1][2]} {...ext}>LinkedIn <span aria-hidden="true">↗</span></a>
+        <a class="pill pill--soft pill--md" href={founder.links[0][2]} {...ext}>Personal site <span aria-hidden="true">↗</span></a>
+      </div>
+
+      <div class="prose">
+        <p class="prose__lead">{founder.lead}</p>
+        <h2>Background</h2>
+        {founder.about.map(p => <p>{p}</p>)}
+        <h2>Why Eris</h2>
+        <p>{founder.whyEris}</p>
+        <h2>Research</h2>
+      </div>
+      <div class="founder-list">
+        {founder.research.map(r => (
+          <a class="founder-item" href={r.href} {...ext}>
+            <b>{r.name}</b><span>{r.line}</span><em>{r.status}</em><i aria-hidden="true">↗</i>
+          </a>
+        ))}
+      </div>
+      <div class="prose"><h2>Products he’s built</h2></div>
+      <div class="founder-list">
+        {founder.products.map(r => (
+          <a class="founder-item" href={r.href} {...ext}>
+            <b>{r.name}</b><span>{r.line}</span><em>{r.status}</em><i aria-hidden="true">↗</i>
+          </a>
+        ))}
+      </div>
+      <div class="prose">
+        <h2>Tools he works with</h2>
+        <div class="chips chips--left">{founder.skills.map(s => <span class="pill pill--soft">{s}</span>)}</div>
+        <h2>Elsewhere</h2>
+      </div>
+      <div class="founder-list founder-list--links">
+        {founder.links.map(([t, s, href]) => (
+          <a class="founder-item" href={href} {...ext}><b>{t}</b><span>{s}</span><i aria-hidden="true">↗</i></a>
+        ))}
+        <a class="founder-item" href={`mailto:${site.email}`} target="_blank" rel="noopener"><b>Email Eris</b><span>{site.email}</span><i aria-hidden="true">↗</i></a>
+      </div>
+    </article>
+
+    <CtaPanel title="Build this with us" body="Eris is early and hiring for equity‑based, remote roles across privacy, memory, agents, efficient AI and design." secondaryLabel="See open roles" secondaryHref="/careers" />
+  </main>
+  <LabFooter />
+</LabLayout>
+
+<script>
+  import '../scripts/lab.js';
+</script>
