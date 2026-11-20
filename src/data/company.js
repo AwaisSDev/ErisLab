@@ -7,7 +7,7 @@ export const founder = {
   location: 'Multan, Pakistan',
   lead: 'Awais Siddique is the founder of Eris. He’s a self‑taught developer from Multan, Pakistan, who started writing code at 10 and builds AI products and machine‑learning research while studying FSc pre‑medical.',
   about: [
-    'He learned from documentation, broken builds and shipping things, with no classes and no bootcamp. He has built an autonomous coding agent, a compliance layer for AI agents and a multi‑agent content platform, each live on its own domain.',
+    'He learned from documentation, broken builds and shipping things, with no classes and no bootcamp. He has built an autonomous coding agent, a compliance layer for AI agents and a gamified study app, each live on its own domain.',
     'Studying biology while building AI agents is why his research goes after problems close to home: floods that displaced millions in 2022, and hospitals running without the monitoring they need.',
     'He cares about the parts of software that make it real (auth, payments, CI/CD, legal pages, onboarding), because those are what turn a demo into a product.',
   ],
@@ -19,7 +19,6 @@ export const founder = {
   products: [
     { name: 'Codeply', line: 'An autonomous coding agent that verifies its own work before it says it’s done', status: 'Live on Windows', href: 'https://codeply.app/' },
     { name: 'Tracyn', line: 'Audit trail and human approvals for AI agents', status: 'Live, free beta', href: 'https://tracyn.online/' },
-    { name: 'Flaren', line: 'A multi‑agent social content platform for agencies', status: 'In build', href: 'https://flaren.online/' },
     { name: 'Quillow', line: 'Studying, gamified: streaks, leagues and squads', status: 'Live', href: 'https://quillow.fun/' },
   ],
   skills: ['Python', 'TypeScript', 'React', 'Next.js', 'Electron', 'Node.js', 'C++', 'PyTorch', 'Supabase', 'Redis'],
