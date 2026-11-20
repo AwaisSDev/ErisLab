@@ -1,6 +1,6 @@
 ---
 // Light editorial layout for secondary pages (e.g. /research).
-import stylesHref from '../styles/lab.css?url';
+import styles from '../styles/lab.css?inline';
 import { site } from '../data/content.js';
 
 interface Props { title?: string; description?: string }
@@ -18,7 +18,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href={stylesHref} />
+    <style is:inline set:html={styles}></style>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={title} />
