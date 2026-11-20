@@ -1,0 +1,23 @@
+---
+import { work } from '../data/content.js';
+---
+<section class="cine work" id="work" data-scene="2" data-chapter="work" data-chrome="light" data-frame="on">
+  <div class="work__rail" aria-hidden="true"><div class="sticky"><i class="work__ruler"></i></div></div>
+  <div class="work__left">
+    <div class="sticky">
+      <div class="work__big">
+        <span class="mono">Areas of research</span>
+        <div class="work__num serif"><span data-work-num>01</span><small>/{String(work.length).padStart(2, '0')}</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="work__col">
+    {work.map((w) => (
+      <article class="work-item">
+        <span class="tag">{w.tag}</span>
+        <h3 class="h3 serif">{w.title}</h3>
+        <p>{w.body}</p>
+      </article>
+    ))}
+  </div>
+</section>

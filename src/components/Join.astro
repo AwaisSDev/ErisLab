@@ -1,0 +1,39 @@
+---
+import { roles, faq, site } from '../data/content.js';
+---
+<section class="cine join" id="join" data-scene="4" data-chapter="join" data-chrome="light" data-frame="on">
+  <div class="join__inner">
+    <div class="join__intro">
+      <span class="tag">Join the lab</span>
+      <h2 class="display" data-split>Build the AI people can actually trust.</h2>
+      <p class="sub serif" data-split>We say no more often than yes — including to ourselves.</p>
+    </div>
+
+    <div class="join__stat">
+      <div class="stat serif"><span data-count="400">400</span></div>
+      <p>people apply for every seat at Eris. We read every application, and we hire the ones who care as much about people’s privacy as about what the models can do.</p>
+    </div>
+
+    <div class="roles">
+      <div class="roles__head mono"><span>Open roles</span><span>Team</span><span>Location</span></div>
+      {roles.map(([title, team, loc]) => (
+        <a class="role" href="#"><span class="serif">{title}</span><span class="mono">{team}</span><span class="mono">{loc}</span><b>→</b></a>
+      ))}
+    </div>
+
+    <div class="faq">
+      <span class="tag">Questions</span>
+      {faq.map(([q, a]) => (
+        <details>
+          <summary class="serif">{q}<i></i></summary>
+          <p>{a}</p>
+        </details>
+      ))}
+    </div>
+
+    <div class="join__cta">
+      <a class="btn btn--ink btn--lg" href="#"><span>Apply</span><b class="btn__arrow">→</b></a>
+      <a class="btn btn--glass btn--lg" href={`mailto:${site.email}`}><span>Request a collaboration</span><b class="btn__arrow">→</b></a>
+    </div>
+  </div>
+</section>

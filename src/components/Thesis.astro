@@ -1,0 +1,20 @@
+---
+import { statements } from '../data/content.js';
+const n = String(statements.length).padStart(2, '0');
+---
+<section class="cine thesis" id="thesis" data-scene="1" data-chapter="thesis" data-chrome="light" data-frame="on">
+  <div class="sticky">
+    <div class="statements">
+      {statements.map((s, i) => (
+        <article class:list={['statement', { 'is-active': i === 0 }]}>
+          <h2 class="display" data-split>{s.title}</h2>
+          <div class="statement__meta">
+            <span class="tag">{s.tag}</span>
+            <p>{s.body}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+    <div class="thesis__counter mono"><span data-thesis-count>01</span> / {n}</div>
+  </div>
+</section>

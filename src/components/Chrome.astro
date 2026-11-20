@@ -1,0 +1,56 @@
+---
+import { chapters } from '../data/content.js';
+---
+<div class="loader" aria-hidden="true">
+  <div class="loader__mark"><svg viewBox="0 0 24 24"><use href="#glyph" /></svg></div>
+  <div class="loader__count mono"><span data-loader-count>000</span></div>
+</div>
+
+<canvas class="stage" id="stage" aria-hidden="true"></canvas>
+<div class="stage-scrim" aria-hidden="true"></div>
+
+<div class="frame" aria-hidden="true">
+  <i class="frame__v frame__v--l"></i>
+  <i class="frame__v frame__v--r"></i>
+  <i class="frame__h frame__h--t"></i>
+  <i class="frame__h frame__h--b"></i>
+  <i class="spark spark--bl"></i>
+  <i class="spark spark--br"></i>
+</div>
+
+<header class="chrome">
+  <a class="chrome__logo" href="#top" data-scrollto="#top" aria-label="Eris Lab — home">
+    <svg viewBox="0 0 24 24"><use href="#glyph" /></svg>
+  </a>
+  <button class="chrome__menu" aria-label="Open menu" aria-expanded="false" data-menu-open>
+    <i></i><i></i><i></i><i></i>
+  </button>
+  <nav class="index" aria-label="Chapters">
+    <ol>
+      {chapters.map((c) => (
+        <li data-index={c.id}><a href={c.href} data-scrollto={c.href}><i></i><span>{c.label}</span></a></li>
+      ))}
+    </ol>
+  </nav>
+  <a class="btn btn--ink chrome__cta" href="#model" data-scrollto="#model">
+    <span>Try Eris</span><b class="btn__arrow">→</b>
+  </a>
+</header>
+
+<div class="menu" aria-hidden="true" data-menu>
+  <div class="menu__inner">
+    <div class="menu__top">
+      <span class="mono">Index</span>
+      <button class="menu__close mono" data-menu-close>Close <b>×</b></button>
+    </div>
+    <ol class="menu__list">
+      {chapters.map((c, i) => (
+        <li><a href={c.href} data-scrollto={c.href}><span class="mono">Ch. {i + 1}</span>{c.label}</a></li>
+      ))}
+    </ol>
+    <div class="menu__foot mono">
+      <span>Eris Lab — Privacy‑first AI research</span>
+      <span>Not just smarter AI. AI that fits into human life.</span>
+    </div>
+  </div>
+</div>

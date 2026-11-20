@@ -1,0 +1,34 @@
+---
+import { atlas, atlasCats } from '../data/content.js';
+---
+<section class="solid atlas" id="atlas" data-chapter="atlas" data-chrome="light" data-frame="off">
+  <div class="wrap">
+    <div class="atlas__head">
+      <span class="tag">The Atlas</span>
+      <h2 class="atlas__title serif" data-split>See how memory takes shape.</h2>
+      <p class="atlas__lede">A living collection of context graphs, memory curves and attention maps from our research — rendered from synthetic data, never from real people. Browse, filter, save.</p>
+      <label class="search">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" /><path d="M20 20l-4.2-4.2" /></svg>
+        <input type="search" placeholder="Search the atlas — try “memory” or “orbit”" data-atlas-search aria-label="Search the atlas" />
+        <kbd class="mono">/</kbd>
+      </label>
+      <div class="chips" data-atlas-chips>
+        <button class="is-active" data-chip="all">Everything</button>
+        {atlasCats.map((c) => <button data-chip={c}>{c}</button>)}
+      </div>
+    </div>
+    <div class="masonry">
+      {atlas.map(([title, cat, kind, ratio], i) => (
+        <figure class="card" data-cat={cat} data-q={`${title} ${cat} ${kind}`.toLowerCase()} style={`--d:${(i % 5) * 0.06}s`}>
+          <div class="card__img" style={`aspect-ratio:1/${ratio}`}>
+            <canvas data-art={kind} data-seed={i * 13 + 5}></canvas>
+            <button class="card__save mono" type="button" aria-label={`Save ${title}`}>Save</button>
+            <span class="card__ai mono">Synthetic data</span>
+          </div>
+          <figcaption><span>{title}</span><small class="mono">{cat}</small></figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="atlas__empty mono" data-atlas-empty hidden>Nothing in the atlas matches that — yet.</p>
+  </div>
+</section>

@@ -1,0 +1,101 @@
+---
+import { specs, benchmarks } from '../data/content.js';
+const kinds = ['gold', 'grey', 'line'];
+---
+<section class="solid model" id="model" data-chapter="model" data-chrome="light" data-frame="off">
+  <div class="model__glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="model__head">
+      <span class="tag">New · November 2026</span>
+      <h2 class="model__name" data-reveal>Eris‑1</h2>
+      <p class="model__lede serif" data-split>A personal model that lives on your device. It remembers what matters, helps before you ask, and never sends your life to anyone.</p>
+      <div class="model__ctas" data-reveal>
+        <a class="btn btn--gold" href="#"><span>Join the waitlist</span><b class="btn__arrow">→</b></a>
+        <a class="btn btn--ghost" href="#"><span>Technical report</span><b class="btn__arrow">↗</b></a>
+        <a class="btn btn--ghost" href="#"><span>Privacy whitepaper</span><b class="btn__arrow">↓</b></a>
+      </div>
+    </div>
+
+    <div class="specs" data-reveal>
+      {specs.map((s) => (
+        <div class="spec">
+          <span class="mono">{s.label}</span>
+          <b><span data-count={s.value}>{s.value}</span>{s.suffix}</b>
+          <small>{s.note}</small>
+        </div>
+      ))}
+    </div>
+
+    <div class="model__grid">
+      <div class="bench" data-reveal>
+        <div class="bench__head">
+          <h3 class="mono">Evaluations</h3>
+          <div class="bench__legend mono">
+            <span><i class="sw sw--gold"></i>Eris‑1</span>
+            <span><i class="sw sw--grey"></i>Eris‑0.9</span>
+            <span><i class="sw sw--line"></i>Typical cloud assistant</span>
+          </div>
+        </div>
+        <!-- Placeholder numbers — replace with real evals before launch. -->
+        <div class="bench__rows">
+          {benchmarks.map((b) => (
+            <div class="brow">
+              <span>{b.label}</span>
+              <div class="brow__bars">
+                {b.vals.map((v, i) => (
+                  <div class={`bar bar--${kinds[i]}`} style={`--v:${v}%;--d:${i * 0.12}s`}>
+                    <i></i><em class="mono">{v.toFixed(1)}</em>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="code" data-reveal>
+        <div class="code__bar">
+          <div class="code__tabs" role="tablist">
+            <button class="is-active" data-tab="py">Python</button>
+            <button data-tab="ts">TypeScript</button>
+            <button data-tab="sh">cURL</button>
+          </div>
+          <button class="code__copy mono" data-copy>Copy</button>
+        </div>
+<pre class="code__body is-active" data-pane="py"><code><span class="k">from</span> eris <span class="k">import</span> Eris
+
+eris = Eris(memory=<span class="s">"local"</span>)      <span class="c"># memory never leaves the device</span>
+
+eris.context.connect(<span class="s">"calendar"</span>, <span class="s">"mail"</span>, <span class="s">"notes"</span>)
+
+reply = eris.ask(
+    <span class="s">"What should I prep for tomorrow?"</span>,
+    proactive=<span class="n">True</span>,           <span class="c"># suggest, never act unasked</span>
+)
+
+<span class="k">print</span>(reply.answer)
+<span class="k">print</span>(reply.used_context)     <span class="c"># exactly what it looked at</span></code></pre>
+<pre class="code__body" data-pane="ts"><code><span class="k">import</span> {'{'} Eris {'}'} <span class="k">from</span> <span class="s">"@erislab/sdk"</span>;
+
+<span class="k">const</span> eris = <span class="k">new</span> Eris({'{'} memory: <span class="s">"local"</span> {'}'});
+
+<span class="k">await</span> eris.context.connect(<span class="s">"calendar"</span>, <span class="s">"mail"</span>, <span class="s">"notes"</span>);
+
+<span class="k">const</span> reply = <span class="k">await</span> eris.ask(<span class="s">"What should I prep for tomorrow?"</span>, {'{'}
+  proactive: <span class="n">true</span>,
+{'}'});
+
+console.log(reply.answer, reply.usedContext);</code></pre>
+<pre class="code__body" data-pane="sh"><code>curl https://api.erislab.ai/v1/ask \
+  -H <span class="s">"Authorization: Bearer $ERIS_API_KEY"</span> \
+  -H <span class="s">"Eris-Encryption: e2e"</span> \
+  -d <span class="s">'{'{'}
+    "model": "eris-1",
+    "input": "What should I prep for tomorrow?",
+    "memory": "client-held"
+  {'}'}'</span></code></pre>
+        <div class="code__foot mono"><span class="dot"></span>eris-1 · on‑device · end‑to‑end encrypted</div>
+      </div>
+    </div>
+  </div>
+</section>
