@@ -209,14 +209,14 @@ h1, h2, h3, h4, p { margin: 0; }
 .photo img { object-fit: cover; object-position: 50% 42%; z-index: -2; transform: translate3d(0, calc(var(--py, 0) * 1px), 0) scale(1.12); will-change: transform; }
 .photo::before { content: ""; position: absolute; inset: 0; z-index: -1; background:
   linear-gradient(180deg, var(--bg) 0%, rgba(0, 0, 0, 0) 18%),
+  linear-gradient(0deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 70%, transparent) 6%, rgba(0, 0, 0, 0) 20%),
   linear-gradient(0deg, rgba(8, 6, 16, .82) 0%, rgba(8, 6, 16, .35) 42%, rgba(8, 6, 16, 0) 65%),
   linear-gradient(90deg, rgba(8, 6, 16, .55) 0%, rgba(8, 6, 16, 0) 60%); }
-.photo__in { position: relative; padding-top: 160px; padding-bottom: clamp(48px, 7vw, 88px); display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
+.photo__in { position: relative; padding-top: 160px; padding-bottom: clamp(150px, 15vw, 210px); display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
 .photo__text { display: flex; flex-direction: column; align-items: flex-start; gap: 18px; max-width: 640px; }
 .photo h2 { font-size: clamp(36px, 4.6vw, 64px); font-weight: 500; letter-spacing: -0.045em; line-height: 1.02; text-shadow: 0 2px 30px rgba(0, 0, 0, .25); }
 .photo p { font-size: 18px; line-height: 1.55; color: rgba(255, 255, 255, .86); max-width: 46ch; }
 .photo__actions { margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; }
-.photo__credit { font-size: 13px; color: rgba(255, 255, 255, .6); white-space: nowrap; }
 .pill--light { background: #fff; color: #000; }
 .pill--light:hover { background: #e8e8e8; }
 .pill--glass { background: rgba(255, 255, 255, .14); color: #fff; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .22); }
