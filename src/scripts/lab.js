@@ -5,7 +5,7 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* generative covers, painted when they approach the viewport (or become visible) */
+/* generative images, painted when they approach the viewport (or become visible) */
 function paint(c) {
   const r = c.getBoundingClientRect();
   if (!r.width || !r.height) return false;
@@ -34,12 +34,9 @@ if (!reduced) {
     io.unobserve(e.target);
   }), { rootMargin: '0px 0px -8% 0px' });
   $$('[data-rise]').forEach(el => io.observe(el));
-} else {
-  $$('[data-rise]').forEach(el => el.classList.add('in'));
 }
 
-/* nav + menu drawer */
-const nav = $('[data-nav]');
+/* mobile menu */
 const menuBtn = $('[data-menu-btn]');
 const drawer = $('[data-drawer]');
 const setMenu = (open) => {
@@ -48,53 +45,29 @@ const setMenu = (open) => {
   menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
   document.documentElement.style.overflow = open ? 'hidden' : '';
 };
-addEventListener('resize', () => { if (innerWidth > 1080) setMenu(false); });
 menuBtn.addEventListener('click', () => setMenu(drawer.hidden));
 $$('a', drawer).forEach(a => a.addEventListener('click', () => setMenu(false)));
 addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+addEventListener('resize', () => { if (innerWidth > 1080) setMenu(false); });
 
-/* tabbed research areas */
-const tabs = $$('[data-tab]');
-function selectTab(i) {
-  tabs.forEach(t => t.setAttribute('aria-selected', String(+t.dataset.tab === i)));
-  $$('[data-panel]').forEach(p => p.hidden = +p.dataset.panel !== i);
-  watchArt($('.areas'));
-}
-tabs.forEach(t => t.addEventListener('click', () => selectTab(+t.dataset.tab)));
-$('[data-tabbar]').addEventListener('keydown', e => {
-  const cur = tabs.findIndex(t => t.getAttribute('aria-selected') === 'true');
-  const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-  if (!d) return;
-  const n = (cur + d + tabs.length) % tabs.length;
-  selectTab(n); tabs[n].focus();
-});
-
-/* scroll-linked: mosaic parallax, statement words, nav state */
-const tiles = $$('[data-mosaic] canvas');
+/* hero mosaic parallax */
 const mosaic = $('[data-mosaic]');
-const statement = $('[data-statement]');
-const words = $$('.sw', statement);
+const tiles = $$('canvas', mosaic);
 let ticking = false;
 function onScroll() {
   ticking = false;
   const vh = innerHeight;
-  nav.classList.toggle('is-scrolled', scrollY > 8);
-  if (reduced) return;
-  const mr = mosaic.getBoundingClientRect();
-  if (mr.bottom > 0 && mr.top < vh) {
-    const p = (mr.top + mr.height / 2 - vh / 2) / vh; // -1..1 around centre
-    tiles.forEach(c => c.style.setProperty('--py', (p * 60 * +c.dataset.par).toFixed(1)));
-  }
-  const sr = statement.getBoundingClientRect();
-  const prog = Math.min(1, Math.max(0, (vh * 0.85 - sr.top) / (sr.height * 0.55)));
-  const lit = Math.round(prog * words.length);
-  words.forEach((w, i) => w.classList.toggle('on', i < lit));
+  const r = mosaic.getBoundingClientRect();
+  if (r.bottom < 0 || r.top > vh) return;
+  const p = (r.top + r.height / 2 - vh / 2) / vh;
+  tiles.forEach(c => c.style.setProperty('--py', (p * 60 * +c.dataset.par).toFixed(1)));
 }
-addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
-addEventListener('resize', onScroll);
-onScroll();
+if (!reduced) {
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  onScroll();
+}
 
-/* filters + list/grid view for open questions */
+/* open questions: filters + list/grid view */
 const list = $('[data-qlist]');
 const items = $$('.q', list);
 const swap = (fn) => (reduced || !document.startViewTransition) ? fn() : document.startViewTransition(fn);
