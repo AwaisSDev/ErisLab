@@ -2,108 +2,209 @@
 import LabLayout from '../layouts/LabLayout.astro';
 import Glyph from '../components/Glyph.astro';
 import {
-  site, mission, philosophy, work, projects, direction, standing,
+  site, mission, work, projects, direction, standing,
   research, principles, collaborate, faq,
 } from '../data/content.js';
 
 const areaIcons = {
   privacy: '<path d="M12 3 5 6v5c0 4.4 3 8.3 7 9.5 4-1.2 7-5.1 7-9.5V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>',
-  context: '<circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="12" cy="17" r="2.2"/><circle cx="19" cy="15" r="1.6"/><path d="M8 8l3 7M16.2 7.2 13 15.3M14 17h3.5M8.2 7h7.6"/>',
+  context: '<circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="12" cy="17" r="2.2"/><path d="M8 8l3 7M16.2 7.2 13 15.3M8.2 7h7.6"/>',
   memory: '<path d="m12 3 9 4.5-9 4.5-9-4.5L12 3Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/>',
   agents: '<path d="M4 12h11"/><path d="m11 7 5 5-5 5"/><path d="M19 4v4M17 6h4"/>',
   efficient: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx=".8"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
 };
+const pointIcon = '<path d="M4 12h16M12 4v16" opacity=".35"/><circle cx="12" cy="12" r="4"/>';
 const areaKeys = ['privacy', 'context', 'memory', 'agents', 'efficient'];
 const areaLabel = Object.fromEntries(research.areas.map(a => [a.key, a.label]));
 const areaFull = Object.fromEntries(areaKeys.map((k, i) => [k, work[i].tag]));
+const tabArt = [['orbit', 21], ['attention', 3], ['contour', 7], ['flow', 2], ['halftone', 31]];
 
-const questions = [
-  ...research.featured.map(f => ({ ...f, featured: true })),
-  ...research.rows,
-];
+const questions = [...research.featured.map(f => ({ ...f, featured: true })), ...research.rows];
 const feature = research.featured[0];
 const pad = (n) => String(n).padStart(2, '0');
+
+// mission split in two tones; words light up on scroll
+const missionWords = mission.split(' ');
+
+// hero mosaic tiles: [art, seed, gridArea, parallax]
+const tiles = [
+  ['flow', 26, '1 / 1 / 5 / 2', -0.6],
+  ['halftone', 8, '1 / 2 / 3 / 4', 0.35],
+  ['orbit', 1, '3 / 2 / 5 / 3', -0.3],
+  ['contour', 35, '3 / 3 / 5 / 4', 0.5],
+  ['planet', 44, '1 / 4 / 5 / 5', -0.45],
+  ['attention', 12, '1 / 5 / 3 / 7', 0.4],
+  ['mesh', 11, '3 / 5 / 5 / 6', -0.25],
+  ['orbit', 13, '3 / 6 / 5 / 7', 0.55],
+];
+
+// background line diagram (pure decoration)
+const circuit = [
+  'M0 120 H150 Q170 120 170 140 V250 Q170 270 190 270 H300',
+  'M0 330 H80 Q100 330 100 350 V420 Q100 440 120 440 H330 Q350 440 350 420 V300',
+  'M0 520 H200 Q220 520 220 500 V470 Q220 450 240 450 H420',
+  'M1440 110 H1290 Q1270 110 1270 130 V250 Q1270 270 1250 270 H1120',
+  'M1440 340 H1360 Q1340 340 1340 360 V430 Q1340 450 1320 450 H1100 Q1080 450 1080 430 V330',
+  'M1440 540 H1230 Q1210 540 1210 520 V490 Q1210 470 1190 470 H1010',
+];
+const nodes = [[170, 200, 'v'], [300, 270, 'h'], [100, 380, 'v'], [350, 330, 'v'], [420, 450, 'h'], [1270, 190, 'v'], [1120, 270, 'h'], [1340, 395, 'v'], [1080, 360, 'v'], [1010, 470, 'h']];
 ---
 <LabLayout title={`Research · ${site.name}`}>
   <Glyph />
 
   <header class="nav" data-nav>
     <div class="nav__in">
-      <a class="brand" href="/" aria-label={`${site.name} home`}>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg>
-        <span>{site.name}</span>
-      </a>
+      <div class="brandbox">
+        <a class="brand" href="/" aria-label={`${site.name} home`}>
+          <span class="brand__mark"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg></span>
+          <span>{site.name}</span>
+        </a>
+        <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" data-menu-btn><i></i><i></i></button>
+      </div>
       <nav class="nav__links" aria-label="Sections">
         <a href="#areas">Areas</a>
         <a href="#projects">Projects</a>
         <a href="#index">Open questions</a>
         <a href="#principles">Principles</a>
-        <a href="#collaborate">Collaborate</a>
       </nav>
       <div class="nav__cta">
-        <a class="pill pill--ghost" href="/">Home</a>
-        <a class="pill pill--ink" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
+        <a class="btn btn--plain" href="/">Home</a>
+        <a class="btn btn--ink" href={`mailto:${site.email}`}>Get in touch</a>
       </div>
+    </div>
+    <div class="drawer" data-drawer hidden>
+      <a href="#areas">Research areas</a><a href="#projects">Projects</a><a href="#index">Open questions</a>
+      <a href="#principles">Principles</a><a href="#collaborate">Collaborate</a><a href="/">Home</a>
     </div>
   </header>
 
   <main>
     <!-- hero -->
-    <section class="hero wrap">
-      <h1 class="hero__title" data-rise>Research</h1>
-      <div class="hero__grid">
-        <p class="hero__lede" data-rise>{philosophy}</p>
-        <p class="hero__body" data-rise>{mission}</p>
+    <section class="hero">
+      <svg class="circuit" viewBox="0 0 1440 620" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+        {circuit.map((d, i) => <path d={d} pathLength="1" style={`--i:${i}`} />)}
+        {nodes.map(([x, y, o], i) => (
+          <g class="node" style={`--i:${i}`} transform={`translate(${x} ${y})`}>
+            <rect x={o === 'v' ? -11 : -22} y={o === 'v' ? -22 : -11} width={o === 'v' ? 22 : 44} height={o === 'v' ? 44 : 22} rx="7" />
+            {o === 'v' ? <path d="M0 -8 V8" /> : <path d="M-9 0 H9" />}
+          </g>
+        ))}
+      </svg>
+      <div class="hero__in wrap">
+        <nav class="crumbs" aria-label="Breadcrumb" data-rise><a href="/">Home</a><span>/</span><span aria-current="page">Research</span></nav>
+        <h1 class="hero__title" data-rise>AI that understands people, <span class="tone">not just prompts.</span></h1>
+        <p class="hero__lede" data-rise>Eris Lab is an independent research lab working on privacy‑first AI, personal context, memory, intelligent agents and efficient models.</p>
+        <div class="hero__cta" data-rise>
+          <a class="btn btn--ink btn--lg" href="#index">Explore open questions</a>
+          <a class="btn btn--paper btn--lg" href="#principles">Read our principles</a>
+        </div>
+      </div>
+
+      <div class="mosaic-wrap wrap" data-rise>
+        <div class="mosaic" data-mosaic>
+          {tiles.map(([art, seed, area, k]) => (
+            <div class="tile" style={`grid-area:${area}`}><canvas data-art={art} data-seed={seed} data-par={k} aria-hidden="true"></canvas></div>
+          ))}
+        </div>
+        <div class="ui-cards">
+          <div class="ui-card">
+            <div class="ui-card__head"><b>Where context goes</b><span>Illustration</span></div>
+            <ul class="route">
+              <li><span>Calendar</span><em class="tag-local">Stays local</em></li>
+              <li><span>Messages</span><em class="tag-local">Stays local</em></li>
+              <li><span>General question</span><em class="tag-out">Frontier model</em></li>
+            </ul>
+          </div>
+          <div class="ui-card">
+            <div class="ui-card__head"><b>What it remembers</b><span>Illustration</span></div>
+            <div class="mem">
+              <div><i style="--h:.9"></i><span>Kept</span></div>
+              <div><i style="--h:.45"></i><span>Fading</span></div>
+              <div><i class="is-gold" style="--h:.7"></i><span>Corrected</span></div>
+              <div><i style="--h:.2"></i><span>Deleted</span></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- research areas: horizontal cards -->
-    <section class="areas" id="areas">
-      <div class="wrap areas__head">
-        <h2 class="h2">Research areas</h2>
-        <div class="pager">
-          <button type="button" data-areas-prev aria-label="Previous">←</button>
-          <span data-areas-count>{pad(1)} / {pad(work.length)}</span>
-          <button type="button" data-areas-next aria-label="Next">→</button>
-        </div>
+    <!-- research areas strip -->
+    <section class="strip" id="areas" aria-label="Research areas">
+      <div class="strip__track">
+        {[0, 1].map(dup => work.map((w, i) => (
+          <div class="strip__cell" aria-hidden={dup ? 'true' : undefined}>
+            <svg viewBox="0 0 24 24" aria-hidden="true" set:html={areaIcons[areaKeys[i]]} />
+            <span>{w.tag}</span>
+          </div>
+        )))}
       </div>
-      <div class="areas__track" data-areas>
+    </section>
+
+    <!-- tabbed areas -->
+    <section class="tabbed wrap">
+      <div class="tabbed__left">
+        <div class="tabbar" role="tablist" aria-label="Research areas" data-tabbar>
+          {work.map((w, i) => (
+            <button role="tab" type="button" aria-selected={i === 0 ? 'true' : 'false'} data-tab={i}>{research.areas[i].label}</button>
+          ))}
+        </div>
         {work.map((w, i) => (
-          <article class="area" data-rise>
-            <div class="area__top">
-              <svg class="area__icon" viewBox="0 0 24 24" aria-hidden="true" set:html={areaIcons[areaKeys[i]]} />
-              <div>
-                <h3>{w.tag}</h3>
-                <span class="muted">{w.points.length} directions</span>
-              </div>
-            </div>
-            <p class="area__title">{w.title}</p>
-            <p class="muted">{w.body}</p>
-            <ul>
-              {w.points.map(p => <li>{p}</li>)}
+          <div class="tabpanel" role="tabpanel" data-panel={i} hidden={i !== 0}>
+            <h2 class="tabpanel__title">{w.title}</h2>
+            <p class="tabpanel__body">{w.body}</p>
+            <ul class="points">
+              {w.points.map(p => (
+                <li><svg viewBox="0 0 24 24" aria-hidden="true" set:html={pointIcon} /><span>{p}</span></li>
+              ))}
             </ul>
-          </article>
+          </div>
+        ))}
+      </div>
+      <div class="tabbed__right">
+        {tabArt.map(([art, seed], i) => (
+          <div class="tabart" data-panel-art={i} hidden={i !== 0}>
+            <canvas data-art={art} data-seed={seed} aria-hidden="true"></canvas>
+          </div>
+        ))}
+        {work.map((w, i) => (
+          <div class="float-card" data-float={i} hidden={i !== 0}>
+            <svg class="float-card__icon" viewBox="0 0 24 24" aria-hidden="true" set:html={areaIcons[areaKeys[i]]} />
+            <div><b>{w.tag}</b><span>{w.points.length} research directions</span></div>
+          </div>
         ))}
       </div>
     </section>
 
-    <!-- featured band -->
-    <section class="feature">
-      <div class="wrap feature__in">
-        <div class="feature__text" data-rise>
-          <div class="meta"><span class="chip chip--dark">Featured</span><span>{feature.area}</span></div>
-          <h2>{feature.title}</h2>
-          <p>{work[0].body}</p>
-          <a class="pill pill--light" href="#index">Explore open questions <span aria-hidden="true">→</span></a>
-        </div>
-        <div class="feature__art">
-          <canvas data-art={feature.art} data-seed={feature.seed} aria-hidden="true"></canvas>
-          <canvas data-art="planet" data-seed="44" aria-hidden="true"></canvas>
-        </div>
+    <!-- dark mission statement -->
+    <section class="statement" data-statement>
+      <div class="wrap statement__in">
+        <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg>Our mission</span>
+        <p class="statement__text" aria-label={mission}>
+          {missionWords.map((w, i) => <span class="sw" aria-hidden="true" style={`--i:${i}`}>{w} </span>)}
+        </p>
+        <dl class="stats">
+          <div><dt>{work.length}</dt><dd>Research areas</dd></div>
+          <div><dt>{projects.length}</dt><dd>Projects in development</dd></div>
+          <div><dt>{questions.length}</dt><dd>Open questions</dd></div>
+        </dl>
       </div>
     </section>
 
-    <!-- projects: cover cards -->
+    <!-- featured, article style -->
+    <section class="article wrap">
+      <nav class="crumbs crumbs--center" aria-label="Breadcrumb"><a href="#index">Open questions</a><span>/</span><span>{feature.area}</span></nav>
+      <h2 class="article__title" data-rise>{feature.title}</h2>
+      <a class="btn btn--ink" href={`mailto:${site.email}?subject=${encodeURIComponent('Research collaboration')}`} data-rise>Discuss this question</a>
+      <div class="article__art" data-rise>
+        <canvas data-art={feature.art} data-seed={feature.seed} aria-hidden="true"></canvas>
+      </div>
+      <div class="article__body" data-rise>
+        <p>{work[0].body}</p>
+        <p class="muted">{standing[0][1]} {standing[1][1]}</p>
+      </div>
+    </section>
+
+    <!-- projects -->
     <section class="projects wrap" id="projects">
       <div class="sec-head">
         <h2 class="h2">Projects</h2>
@@ -125,14 +226,14 @@ const pad = (n) => String(n).padStart(2, '0');
       </div>
     </section>
 
-    <!-- index: list / grid with filters -->
+    <!-- index -->
     <section class="index wrap" id="index">
       <div class="index__top">
         <h2 class="h2">Open questions</h2>
         <span class="muted">{questions.length} questions</span>
       </div>
       <div class="toolbar">
-        <div class="tabs" role="tablist" data-filters>
+        <div class="tabs" data-filters>
           <button class="is-active" data-filter="all" type="button">All</button>
           {research.areas.map(a => <button data-filter={a.key} type="button">{a.label}</button>)}
         </div>
@@ -153,7 +254,7 @@ const pad = (n) => String(n).padStart(2, '0');
                 <span class="q__area">{areaLabel[q.type]}</span>
                 <span class="muted">{q.featured ? 'Featured question' : 'Open question'}</span>
               </div>
-              <div class="q__cover"><canvas data-art={q.art} data-seed={q.seed} aria-hidden="true"></canvas></div>
+              <div class="q__cover"><canvas data-art={q.art === 'tokens' ? 'mesh' : q.art} data-seed={q.seed} aria-hidden="true"></canvas></div>
               <div class="q__main">
                 <h3>{q.title}</h3>
                 <p class="muted">{areaFull[q.type]}</p>
@@ -165,7 +266,7 @@ const pad = (n) => String(n).padStart(2, '0');
       </ol>
     </section>
 
-    <!-- direction + honest standing -->
+    <!-- direction + standing -->
     <section class="split wrap">
       <div data-rise>
         <h2 class="h2">Technical direction</h2>
@@ -196,16 +297,21 @@ const pad = (n) => String(n).padStart(2, '0');
               <p class="muted">{p.body}</p>
             </article>
           ))}
+          <a class="pcard pcard--cta" href={`mailto:${site.email}?subject=${encodeURIComponent('Feedback on principles')}`} data-rise>
+            <span class="num">→</span>
+            <h3>Tell us where we fall short.</h3>
+            <p>Feedback on our principles is always welcome.</p>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- collaborate + faq -->
+    <!-- collaborate -->
     <section class="collab wrap" id="collaborate">
       <div class="collab__left" data-rise>
-        <h2 class="display">Work on this with us.</h2>
+        <h2 class="display">Work on this <span class="tone">with us.</span></h2>
         <p class="muted">We’re a small, independent lab. If these questions matter to you, we’d like to hear from you.</p>
-        <a class="pill pill--ink pill--lg" href={`mailto:${site.email}`}>{site.email} <span aria-hidden="true">↗</span></a>
+        <a class="btn btn--ink btn--lg" href={`mailto:${site.email}`}>{site.email}</a>
       </div>
       <div class="collab__right">
         <ul class="links">
@@ -224,10 +330,8 @@ const pad = (n) => String(n).padStart(2, '0');
 
   <footer class="foot">
     <div class="wrap">
+      <p class="foot__big">{site.name}</p>
       <div class="foot__cols">
-        <div>
-          <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg><span>{site.name}</span></a>
-        </div>
         <div><h4>Research areas</h4>{work.map(w => <a href="#areas">{w.tag}</a>)}</div>
         <div><h4>Projects</h4>{projects.map(p => <a href="#projects">{p.name}</a>)}</div>
         <div><h4>Lab</h4><a href="/">Home</a><a href="#principles">Principles</a><a href="#collaborate">Collaborate</a><a href={`mailto:${site.email}`}>Contact</a></div>
