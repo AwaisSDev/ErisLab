@@ -1,0 +1,245 @@
+---
+import LabLayout from '../layouts/LabLayout.astro';
+import Glyph from '../components/Glyph.astro';
+import {
+  site, mission, philosophy, work, projects, direction, standing,
+  research, principles, collaborate, faq,
+} from '../data/content.js';
+
+const areaIcons = {
+  privacy: '<path d="M12 3 5 6v5c0 4.4 3 8.3 7 9.5 4-1.2 7-5.1 7-9.5V6l-7-3Z"/><path d="m9 12 2 2 4-4"/>',
+  context: '<circle cx="6" cy="7" r="2.2"/><circle cx="18" cy="6" r="2.2"/><circle cx="12" cy="17" r="2.2"/><circle cx="19" cy="15" r="1.6"/><path d="M8 8l3 7M16.2 7.2 13 15.3M14 17h3.5M8.2 7h7.6"/>',
+  memory: '<path d="m12 3 9 4.5-9 4.5-9-4.5L12 3Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/>',
+  agents: '<path d="M4 12h11"/><path d="m11 7 5 5-5 5"/><path d="M19 4v4M17 6h4"/>',
+  efficient: '<rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx=".8"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
+};
+const areaKeys = ['privacy', 'context', 'memory', 'agents', 'efficient'];
+const areaLabel = Object.fromEntries(research.areas.map(a => [a.key, a.label]));
+const areaFull = Object.fromEntries(areaKeys.map((k, i) => [k, work[i].tag]));
+
+const questions = [
+  ...research.featured.map(f => ({ ...f, featured: true })),
+  ...research.rows,
+];
+const feature = research.featured[0];
+const pad = (n) => String(n).padStart(2, '0');
+---
+<LabLayout title={`Research · ${site.name}`}>
+  <Glyph />
+
+  <header class="nav" data-nav>
+    <div class="nav__in">
+      <a class="brand" href="/" aria-label={`${site.name} home`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg>
+        <span>{site.name}</span>
+      </a>
+      <nav class="nav__links" aria-label="Sections">
+        <a href="#areas">Areas</a>
+        <a href="#projects">Projects</a>
+        <a href="#index">Open questions</a>
+        <a href="#principles">Principles</a>
+        <a href="#collaborate">Collaborate</a>
+      </nav>
+      <div class="nav__cta">
+        <a class="pill pill--ghost" href="/">Home</a>
+        <a class="pill pill--ink" href={`mailto:${site.email}`}>Get in touch <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- hero -->
+    <section class="hero wrap">
+      <h1 class="hero__title" data-rise>Research</h1>
+      <div class="hero__grid">
+        <p class="hero__lede" data-rise>{philosophy}</p>
+        <p class="hero__body" data-rise>{mission}</p>
+      </div>
+    </section>
+
+    <!-- research areas: horizontal cards -->
+    <section class="areas" id="areas">
+      <div class="wrap areas__head">
+        <h2 class="h2">Research areas</h2>
+        <div class="pager">
+          <button type="button" data-areas-prev aria-label="Previous">←</button>
+          <span data-areas-count>{pad(1)} / {pad(work.length)}</span>
+          <button type="button" data-areas-next aria-label="Next">→</button>
+        </div>
+      </div>
+      <div class="areas__track" data-areas>
+        {work.map((w, i) => (
+          <article class="area" data-rise>
+            <div class="area__top">
+              <svg class="area__icon" viewBox="0 0 24 24" aria-hidden="true" set:html={areaIcons[areaKeys[i]]} />
+              <div>
+                <h3>{w.tag}</h3>
+                <span class="muted">{w.points.length} directions</span>
+              </div>
+            </div>
+            <p class="area__title">{w.title}</p>
+            <p class="muted">{w.body}</p>
+            <ul>
+              {w.points.map(p => <li>{p}</li>)}
+            </ul>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <!-- featured band -->
+    <section class="feature">
+      <div class="wrap feature__in">
+        <div class="feature__text" data-rise>
+          <div class="meta"><span class="chip chip--dark">Featured</span><span>{feature.area}</span></div>
+          <h2>{feature.title}</h2>
+          <p>{work[0].body}</p>
+          <a class="pill pill--light" href="#index">Explore open questions <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="feature__art">
+          <canvas data-art={feature.art} data-seed={feature.seed} aria-hidden="true"></canvas>
+          <canvas data-art="planet" data-seed="44" aria-hidden="true"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- projects: cover cards -->
+    <section class="projects wrap" id="projects">
+      <div class="sec-head">
+        <h2 class="h2">Projects</h2>
+        <p class="muted">Research and development work. Not launched products.</p>
+      </div>
+      <div class="projects__grid">
+        {projects.map(p => (
+          <a class="proj" href={`mailto:${site.email}?subject=${encodeURIComponent(p.name)}`} data-rise>
+            <div class="proj__cover">
+              <canvas data-art={p.art} data-seed={p.seed} aria-hidden="true"></canvas>
+              <span class="proj__name">{p.name}</span>
+            </div>
+            <div class="proj__meta">
+              <h3>{p.name}: {p.kind}</h3>
+              <p class="muted">{p.body}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- index: list / grid with filters -->
+    <section class="index wrap" id="index">
+      <div class="index__top">
+        <h2 class="h2">Open questions</h2>
+        <span class="muted">{questions.length} questions</span>
+      </div>
+      <div class="toolbar">
+        <div class="tabs" role="tablist" data-filters>
+          <button class="is-active" data-filter="all" type="button">All</button>
+          {research.areas.map(a => <button data-filter={a.key} type="button">{a.label}</button>)}
+        </div>
+        <div class="views" data-views>
+          <button class="is-active" data-view="list" type="button" aria-label="List view">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
+          </button>
+          <button data-view="grid" type="button" aria-label="Grid view">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="2" width="5" height="5"/><rect x="9" y="2" width="5" height="5"/><rect x="2" y="9" width="5" height="5"/><rect x="9" y="9" width="5" height="5"/></svg>
+          </button>
+        </div>
+      </div>
+      <ol class="qlist" data-qlist data-view="list">
+        {questions.map(q => (
+          <li class="q" data-type={q.type}>
+            <a href={`mailto:${site.email}?subject=${encodeURIComponent(q.title)}`}>
+              <div class="q__side">
+                <span class="q__area">{areaLabel[q.type]}</span>
+                <span class="muted">{q.featured ? 'Featured question' : 'Open question'}</span>
+              </div>
+              <div class="q__cover"><canvas data-art={q.art} data-seed={q.seed} aria-hidden="true"></canvas></div>
+              <div class="q__main">
+                <h3>{q.title}</h3>
+                <p class="muted">{areaFull[q.type]}</p>
+              </div>
+              <span class="q__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <!-- direction + honest standing -->
+    <section class="split wrap">
+      <div data-rise>
+        <h2 class="h2">Technical direction</h2>
+        <ol class="dirs">
+          {direction.map((d, i) => <li><span class="num">{pad(i + 1)}</span>{d}</li>)}
+        </ol>
+      </div>
+      <div data-rise>
+        <h2 class="h2">Where we stand</h2>
+        <dl class="stand">
+          {standing.map(([t, b]) => <div><dt>{t}</dt><dd>{b}</dd></div>)}
+        </dl>
+      </div>
+    </section>
+
+    <!-- principles -->
+    <section class="principles" id="principles">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 class="h2">Principles</h2>
+          <p class="muted">What we hold ourselves to while doing this research.</p>
+        </div>
+        <div class="pgrid">
+          {principles.map((p, i) => (
+            <article class="pcard" data-rise>
+              <span class="num">{pad(i + 1)}</span>
+              <h3>{p.title}</h3>
+              <p class="muted">{p.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- collaborate + faq -->
+    <section class="collab wrap" id="collaborate">
+      <div class="collab__left" data-rise>
+        <h2 class="display">Work on this with us.</h2>
+        <p class="muted">We’re a small, independent lab. If these questions matter to you, we’d like to hear from you.</p>
+        <a class="pill pill--ink pill--lg" href={`mailto:${site.email}`}>{site.email} <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="collab__right">
+        <ul class="links">
+          {collaborate.map(([t, s, subj]) => (
+            <li><a href={`mailto:${site.email}?subject=${encodeURIComponent(subj)}`}><span><b>{t}</b><span class="muted">{s}</span></span><span aria-hidden="true">↗</span></a></li>
+          ))}
+        </ul>
+        <div class="faq">
+          {faq.map(([q, a]) => (
+            <details><summary>{q}<i aria-hidden="true"></i></summary><p class="muted">{a}</p></details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot__cols">
+        <div>
+          <a class="brand" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#glyph" /></svg><span>{site.name}</span></a>
+        </div>
+        <div><h4>Research areas</h4>{work.map(w => <a href="#areas">{w.tag}</a>)}</div>
+        <div><h4>Projects</h4>{projects.map(p => <a href="#projects">{p.name}</a>)}</div>
+        <div><h4>Lab</h4><a href="/">Home</a><a href="#principles">Principles</a><a href="#collaborate">Collaborate</a><a href={`mailto:${site.email}`}>Contact</a></div>
+      </div>
+      <div class="foot__bottom">
+        <span>© {new Date().getFullYear()} {site.name}</span>
+        <span>Research reported as research. Visuals are generated from synthetic data.</span>
+      </div>
+    </div>
+  </footer>
+</LabLayout>
+
+<script>
+  import '../scripts/lab.js';
+</script>
